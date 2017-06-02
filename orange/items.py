@@ -7,8 +7,8 @@
 
 import scrapy
 
+class OldfriendItem(scrapy.Item):
 
-class OrangeItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    title = scrapy.Field()
+    time = scrapy.Field()
+    text = scrapy.Field()
