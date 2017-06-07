@@ -9,7 +9,8 @@ import scrapy
 
 
 class LadItem(scrapy.Item):
-    
+
     title = scrapy.Field()
+    news_type = scrapy.Field()
     time = scrapy.Field()
     text = scrapy.Field()

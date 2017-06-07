@@ -5,26 +5,33 @@ from lad.items import LadItem
 
 class newsSpider(scrapy.Spider):
     name = "shenzhen"
-    start_urls = ["http://www.szga.gov.cn/JFZX/JFTS/FD/"]
-    time = 0
-    num = 0
+    districts = ['FH', 'FD', 'FP', 'FSG', 'FQT', 'FQ']
+    start_urls = ['http://www.szga.gov.cn/JFZX/JFTS/%s/' % x for x in districts]
     text = ""
 
     def parse(self, response):
         if len(response.xpath('/html/body/div/div[1]/div[4]/div[2]/ul/li')) == 16:
-            next_url_part = "/index_" + str(self.time + 1) + ".html"
-            next_url = 'http://www.szga.gov.cn/JFZX/JFTS/FD' + next_url_part
-            self.time = self.time + 1
+            #判断是否是最后一页,不是的话执行下面逻辑
+            if len(response.url) < 38:
+                next_url_part = "index_" + str(1) + ".html"
+                next_url = response.url + next_url_part
+            else:
+                part_str = response.url.split('/')[6]
+                num = int(part_str[6])
+                next_url_part = "index_" + str(num + 1) + ".html"
+                url_len = len(response.url)
+                next_url = response.url[0:(url_len) - 12] + next_url_part
             yield scrapy.Request(url=next_url, callback=self.parse)
 
         for infoDiv in response.xpath('/html/body/div/div[1]/div[4]/div[2]/ul/li')[1:15]:
             info_url = infoDiv.extract().encode('utf-8').split('.')[1]
-            n_url = 'http://www.szga.gov.cn/JFZX/JFTS/FD' + info_url + ".html"
+            n_url = response.url.split('index')[0] + info_url[1:len(info_url)] + ".html"
             yield scrapy.Request(url=n_url, callback=self.parse_info)
 
     def parse_info(self, response):
         item = LadItem()
 
+        item["news_type"] = response.url.split('/')[5]
         item["title"] = response.xpath('/html/body/div/div[1]/div[4]/div[1]/h4/text()').extract()[0].encode('utf-8')
         item["time"] = response.xpath('/html/body/div/div[1]/div[4]/div[1]/div/p[2]/text()').extract_first().encode('utf-8').split('：')[1]        #rows = list(array)
 
@@ -41,7 +48,8 @@ class newsSpider(scrapy.Spider):
                     self.text = self.text + str_slt.xpath('text()').extract_first()
         elif flag == 1:
             for sp_str in text_list:
-                self.text = self.text + sp_slt.xpath('text()').extract_first()
+                self.text = self.text + sp_str.xpath('text()').extract_first()
         item["text"] = self.text
+        self.text = ""
 
         yield item
