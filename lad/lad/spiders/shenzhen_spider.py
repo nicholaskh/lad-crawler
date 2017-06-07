@@ -36,19 +36,24 @@ class newsSpider(scrapy.Spider):
         item["time"] = response.xpath('/html/body/div/div[1]/div[4]/div[1]/div/p[2]/text()').extract_first().encode('utf-8').split('：')[1]        #rows = list(array)
 
         text_list = response.xpath('//*[@id="txtContent"]/div/div/div/p')
-        flag = 0
         if len(text_list) == 0:
             text_list = response.xpath('//*[@id="txtContent"]/div/p/span')
-            flag = 1
-        if flag == 0:
-            for str_slt in text_list:
-                if str_slt.xpath('text()').extract_first() is None:
-                    self.text = self.text
-                else:
-                    self.text = self.text + str_slt.xpath('text()').extract_first()
-        elif flag == 1:
-            for sp_str in text_list:
-                self.text = self.text + sp_str.xpath('text()').extract_first()
+        if len(text_list) == 0:
+            text_list = response.xpath('//*[@id="content"]/div/div/p')
+        if len(text_list) == 0:
+            text_list = response.xpath('//*[@id="txtContent"]/div/p')
+        if len(text_list) == 0:
+            text_list = response.xpath('//*[@id="artibody"]/p')
+        if len(text_list) == 0:
+            text_list = response.xpath('//*[@id="txtContent"]/div/div/p')
+        if len(text_list) == 0:
+            text_list = response.xpath('//*[@id="txtContent"]/p')
+
+        for str_slt in text_list:
+            if str_slt.xpath('text()').extract_first() is None:
+                self.text = self.text
+            else:
+                self.text = self.text + str_slt.xpath('text()').extract_first()
         item["text"] = self.text
         self.text = ""
 
