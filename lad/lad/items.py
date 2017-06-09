@@ -14,3 +14,4 @@ class LadItem(scrapy.Item):
     news_type = scrapy.Field()
     time = scrapy.Field()
     text = scrapy.Field()
+    city = scrapy.Field()

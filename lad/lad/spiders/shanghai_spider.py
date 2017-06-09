@@ -4,13 +4,12 @@ import scrapy
 from lad.items import LadItem
 
 class newsSpider(scrapy.Spider):
-    name = "shenzhen"
-    districts = ['FH', 'FD', 'FP', 'FSG', 'FQT', 'FQ']
-    start_urls = ['http://www.szga.gov.cn/JFZX/JFTS/%s/' % x for x in districts]
+    name = "shanghai"
+    start_urls = ['http://www.police.sh.cn/shga/wzXxfbGj/getList?pa=f41aa3d5accbfad14fcbf784730c1c7ff77fd0d7b1bf674e']
     text = ""
 
     def parse(self, response):
-        if len(response.xpath('/html/body/div/div[1]/div[4]/div[2]/ul/li')) == 16:
+        if len(response.xpath('/html/body/div/div[1]/div[4]/div[2]/ul/li')) == 15:
             #判断是否是最后一页,不是的话执行下面逻辑
             if len(response.url) < 38:
                 next_url_part = "index_" + str(1) + ".html"
@@ -31,7 +30,6 @@ class newsSpider(scrapy.Spider):
     def parse_info(self, response):
         item = LadItem()
 
-        item["city"] = "深圳"
         item["news_type"] = response.url.split('/')[5]
         item["title"] = response.xpath('/html/body/div/div[1]/div[4]/div[1]/h4/text()').extract()[0].encode('utf-8')
         item["time"] = response.xpath('/html/body/div/div[1]/div[4]/div[1]/div/p[2]/text()').extract_first().encode('utf-8').split('：')[1]        #rows = list(array)
