@@ -5,7 +5,7 @@ from lad.items import LadItem
 
 class newsSpider(scrapy.Spider):
     name = "shanghai"
-    start_urls = ['http://www.police.sh.cn/shga/wzXxfbGj/getList?pa=f41aa3d5accbfad14fcbf784730c1c7ff77fd0d7b1bf674e']
+    start_urls = ['http://www.police.sh.cn/shga/wzXxfbGj/getList?pa=27cfd74b74a64343cd7331af88bfaf2f5287b656056dd690&page=1']
     text = ""
 
     def parse(self, response):
