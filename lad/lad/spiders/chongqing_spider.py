@@ -7,6 +7,7 @@ class newsSpider(scrapy.Spider):
     name = "chongqing"
     start_urls = ['http://www.cqga.gov.cn/jfzx/']
     text = ""
+    flag = 0
 
     def parse(self, response):
         if len(response.xpath('/html/body/center/div/table[3]/tr/td/table/tr/td[3]/table/tr/td/a')) == 23:
@@ -32,15 +33,30 @@ class newsSpider(scrapy.Spider):
         item["title"] = response.xpath('/html/body/table[4]/tr/td/table[2]/tr/td/text()').extract_first().strip()
         item["time"] = response.xpath('/html/body/table[4]/tr/td/table[4]/tr/td/text()[1]').extract_first().strip()[10:21]
 
-        text_list = response.xpath('//*[@id="Zoom"]/articlepagebegin/p/span')
-        if text_list == 0:
+        text_list = response.xpath('//*[@id="Zoom"]/articlepagebegin/div/div/p/span')
+        if len(text_list) == 0:
+            text_list = response.xpath('//*[@id="Zoom"]/articlepagebegin/div/div/p')
+        if len(text_list) == 0:
+            text_list = response.xpath('//*[@id="Zoom"]/articlepagebegin/p/span')
+        if len(text_list) == 0:
+            text_list = response.xpath('//*[@id="Zoom"]/articlepagebegin/p/font/text()')
+            self.lag = 1
+        if len(text_list) == 0:
             text_list = response.xpath('//*[@id="Zoom"]/articlepagebegin/p')
 
-        for str_slt in text_list:
-            if str_slt.xpath('text()').extract_first() is None:
-                self.text = self.text
-            else:
-                self.text = self.text + str_slt.xpath('text()').extract_first()
+        if self.flag == 1:
+            for str_slt in text_list:
+                if str_slt.extract() is None:
+                    self.text = self.text
+                else:
+                    self.text = self.text + str_slt.extract()
+            self.flag = 0
+        else:
+            for str_slt in text_list:
+                if str_slt.xpath('text()').extract_first() is None:
+                    self.text = self.text
+                else:
+                    self.text = self.text + str_slt.xpath('text()').extract_first()
         item["text"] = self.text
         self.text = ""
 
