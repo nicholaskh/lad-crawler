@@ -15,7 +15,7 @@ class newsSpider(scrapy.Spider):
             if len(response.url) == 29:
                 next_url = 'https://www.ys137.com/xinwen/list_183_1150.html'
             else:
-                num = int(str.split('_')[2].split('.')[0])
+                num = int(response.url.split('_')[2].split('.')[0])
                 next_url = 'https://www.ys137.com/xinwen/list_183_' + str(num - 1) + ".html"
             yield scrapy.Request(url=next_url, callback=self.parse)
 
@@ -24,7 +24,7 @@ class newsSpider(scrapy.Spider):
             yield scrapy.Request(url=n_url, callback=self.parse_info)
 
     def parse_info(self, response):
-        item = LadItem()
+        item = YangshengItem()
 
         item["web"] = "养生之道网"
         item["title"] = response.xpath('/html/body/div/div/h1/text()').extract_first()
