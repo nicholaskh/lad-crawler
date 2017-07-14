@@ -1,7 +1,7 @@
 #coding=utf-8
 import scrapy
 
-from lad.items import LadItem
+from lad.items import YangshengItem
 
 class newsSpider(scrapy.Spider):
     name = "yangshengzhidaowang"
@@ -10,38 +10,35 @@ class newsSpider(scrapy.Spider):
     text = ""
 
     def parse(self, response):
-        if len(response.xpath('//*[@id="yun1"]/tr')) == 31:
+        if response.xpath('/html/body/div/div/ul/li/div/span/text()')[19].extract() != '2014-08-25 15:03':
             #判断是否是最后一页,不是的话执行下面逻辑
-            if len(response.url) <= 42:
-                next_url = 'http://www.bjgaj.gov.cn/web/listPage_allJfts_col1167_30_2.html'
+            if len(response.url) == 29:
+                next_url = 'https://www.ys137.com/xinwen/list_183_1150.html'
             else:
-                num = int(response.url[56])
-                next_url = response.url[0:56] + str(num + 1) + ".html"
+                num = int(str.split('_')[2].split('.')[0])
+                next_url = 'https://www.ys137.com/xinwen/list_183_' + str(num - 1) + ".html"
             yield scrapy.Request(url=next_url, callback=self.parse)
 
-        for infoDiv in response.xpath('//*[@id="yun1"]/tr'):
-            if infoDiv.xpath('td/a/@href').extract_first() is None:
-                continue
-            else:
-                n_url = "http://www.bjgaj.gov.cn" + infoDiv.xpath('td/a/@href').extract_first()
-                self.news_type = response.xpath('//*[@id="yun1"]/tr')[3].xpath('td/span/strong/a/text()').extract_first()
-                yield scrapy.Request(url=n_url, callback=self.parse_info)
+        for infoDiv in response.xpath('/html/body/div/div/ul/li/div/h2/a/@href'):
+            n_url = infoDiv.extract()
+            yield scrapy.Request(url=n_url, callback=self.parse_info)
 
     def parse_info(self, response):
         item = LadItem()
 
-        item["city"] = "北京"
-        item["news_type"] = self.news_type
-        item["title"] = response.xpath('/html/body/table[3]/tr/td/table[2]/tr/td[3]/table/tr/td/table/tr[2]/td/table/tr[1]/td/font/b/text()').extract_first()
-        item["time"] = response.xpath('/html/body/table[3]/tr/td/table[2]/tr/td[3]/table/tr/td/table/tr[2]/td/table/tr[2]/td/text()').extract_first().split('www.bjgaj.gov.cn')[1].strip()
+        item["web"] = "养生之道网"
+        item["title"] = response.xpath('/html/body/div/div/h1/text()').extract_first()
+        item["yangsheng_type"] = "养生资讯"
+        time_leng = len(response.xpath('/html/body/div/div/div/text()')[18].extract().strip())
+        item["time"] = response.xpath('/html/body/div/div/div/text()')[18].extract().strip()[time_leng-16:time_leng]
 
-        text_list = response.xpath('//*[@id="articleContent"]/p')
+        text_list = response.xpath('/html/body/div/div/div/table/tr/td/p/text()')
 
         for p_slt in text_list:
-            if p_slt.xpath('text()').extract_first() is None:
+            if p_slt.extract() is None:
                 self.text = self.text
             else:
-                self.text = self.text + p_slt.xpath('text()').extract_first()
+                self.text = self.text + p_slt.extract()
         item["text"] = self.text
         self.text = ""
 
