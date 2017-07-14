@@ -15,3 +15,11 @@ class LadItem(scrapy.Item):
     time = scrapy.Field()
     text = scrapy.Field()
     city = scrapy.Field()
+
+class YangshengItem(scrapy.Item):
+
+    web = scrapy.Field()
+    title = scrapy.Field()
+    yangsheng_type = scrapy.Field()
+    time = scrapy.Field()
+    text = scrapy.Field()
