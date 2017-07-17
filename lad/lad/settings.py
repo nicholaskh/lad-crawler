@@ -21,6 +21,8 @@ NEWSPIDER_MODULE = 'lad.spiders'
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
+IMAGES_STORE='/Users/MichealHuang/Documents/ScrapyPhotos'
+
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 
@@ -65,8 +67,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'lad.pipelines.LadPipeline': 300,
-}
+    'lad.pipelines.LadPipeline': 1}
 
 MONGO_HOST = "127.0.0.1"  # 主机IP
 MONGO_PORT = 27017  # 端口号
