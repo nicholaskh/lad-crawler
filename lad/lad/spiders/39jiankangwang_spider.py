@@ -13,7 +13,7 @@ class newsSpider(scrapy.Spider):
     text = ""
 
     def parse(self, response):
-        if response.xpath('/html/body/div/div/div/ul/li/span/text()')[47].extract() != '2009年05月23日 23:52':
+        if response.xpath('//*[@class="list_page"]/span/a/text()')[-2].extract().encode('utf-8') == '下一页':
             #判断是否是最后一页,不是的话执行下面逻辑
             if len(response.url) <= 29:
                 next_url = response.url + 'index_1.html'
