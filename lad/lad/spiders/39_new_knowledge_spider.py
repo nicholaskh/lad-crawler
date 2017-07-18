@@ -30,7 +30,7 @@ class newsSpider(scrapy.Spider):
         item["class_name"] = "健康新知"
         item["class_num"] = 1
         item["title"] = response.xpath('/html/body/div/div/div/h1/text()').extract_first()
-        item["source"] = "大众养生网"
+        item["source"] = "39健康网"
         item["source_url"] = response.url
         item['image_urls'] = response.xpath('//*[@id="contentText"]/p/img/@src').extract() #提取图片链接
         item["time"] = response.xpath('//*[@class="sweetening_title"]/span[2]/text()').extract_first()
