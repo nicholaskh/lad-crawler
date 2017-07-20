@@ -17,7 +17,7 @@ class newsSpider(scrapy.Spider):
                 num = int(response.url.split('-')[1].split('.')[0])
                 next_url = response.url.split('-')[0] + '-' + str(num - 1) + ".htm"
             else:
-                next_url = next_url = response.url + '/' + response.xpath('//*[@class="list_page"]/span/a/@href').extract_first()
+                next_url = response.url + response.xpath('//*[@class="list_page"]/span/a/@href').extract_first()
             yield scrapy.Request(url=next_url, callback=self.parse)
 
         for infoDiv in response.xpath('//*[@class="one_list"]/div/h2/a/@href'):
@@ -28,9 +28,9 @@ class newsSpider(scrapy.Spider):
         item = YangshengwangItem()
 
         item["module"] = "保健常识"
-        item["class_name"] = response.xpath('//*[@class="l_path"]/span/a/text()')[-1].extract()
+        item["class_name"] = response.xpath('//*[@class="l_path"]/span/a/text()')[-2].extract()
         item["class_num"] = 2
-        item["specific_name"] = response.xpath('//*[@class="l_path"]/span/a/text()')[-2].extract()
+        item["specific_name"] = response.xpath('//*[@class="l_path"]/span/a/text()')[-1].extract()
         item["title"] = response.xpath('//*[@class="title"]/h1/text()').extract_first()
         item["source"] = "99健康网"
         item["source_url"] = response.url

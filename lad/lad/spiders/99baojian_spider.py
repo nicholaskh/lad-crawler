@@ -6,7 +6,7 @@ from lad.items import YangshengwangItem
 class newsSpider(scrapy.Spider):
     name = "99yiji"
     # 健康新知
-    dict_news = {'zyys': '1_中医养生', 'zyys/jjys': '2_居家养生','zyys/ysyd': '2_养生有道',
+    dict_news = {'zyys/jjys': '2_居家养生','zyys/ysyd': '2_养生有道',
         'zyys/nvys': '2_女人养生','zyys/nvys': '2_男人养生','zyys/sjys': '2_四季养生'}
     start_urls = ['http://zyk.99.com.cn/%s/' % x for x in dict_news.keys()]
     text = ''
@@ -18,7 +18,7 @@ class newsSpider(scrapy.Spider):
                 num = int(response.url.split('_')[2].split('.')[0])
                 next_url = response.url.split('_')[0] + '_' + response.url.split('_')[1] + '_' + str(num - 1) + ".html"
             else:
-                next_url = 'http://zyk.99.com.cn/zyys/' + response.xpath('//*[@class="list_page"]/span/a/@href').extract_first()
+                next_url = 'http://zyk.99.com.cn/zyys/jjys/' + response.xpath('//*[@class="list_page"]/span/a/@href').extract_first()
             yield scrapy.Request(url=next_url, callback=self.parse)
 
         for infoDiv in response.xpath('//*[@class="one_list"]/div/h2/a/@href'):
@@ -30,7 +30,8 @@ class newsSpider(scrapy.Spider):
 
         item["module"] = "保健常识"
         item["class_name"] = '中医养生'
-        item["class_num"] = 1
+        item["class_num"] = 2
+        item['specific_name'] = response.xpath('//*[@class="l_path"]/span/a/text()')[-1].extract()
         item["title"] = response.xpath('//*[@class="title"]/h1/text()').extract_first()
         item["source"] = "99健康网"
         item["source_url"] = response.url
