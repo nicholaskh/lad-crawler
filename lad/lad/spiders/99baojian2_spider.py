@@ -6,7 +6,7 @@ from lad.items import YangshengwangItem
 class newsSpider(scrapy.Spider):
     name = "99yiji2"
     # 健康新知
-    dict_news = ['rqbj','sjbj','yajiankang','lybj','baojiancao']
+    dict_news = ['rqbj','sjbj','yajiankang','lybj','baojiancao','jjbj']
     start_urls = ['http://bj.99.com.cn/%s/' % x for x in dict_news]
     text = ''
 

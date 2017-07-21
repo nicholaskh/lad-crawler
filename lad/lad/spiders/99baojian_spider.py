@@ -7,7 +7,7 @@ class newsSpider(scrapy.Spider):
     name = "99yiji"
     # 健康新知
     dict_news = {'zyys/jjys': '2_居家养生','zyys/ysyd': '2_养生有道',
-        'zyys/nvys': '2_女人养生','zyys/nvys': '2_男人养生','zyys/sjys': '2_四季养生'}
+        'zyys/nvys': '2_女人养生','zyys/nvys': '2_男人养生','zyys/sjys': '2_四季养生','zyjb': '中医疾病','changshi': '中医常识'}
     start_urls = ['http://zyk.99.com.cn/%s/' % x for x in dict_news.keys()]
     text = ''
 
@@ -29,7 +29,7 @@ class newsSpider(scrapy.Spider):
         item = YangshengwangItem()
 
         item["module"] = "保健常识"
-        item["class_name"] = '中医养生'
+        item["class_name"] = response.xpath('//*[@class="l_path"]/span/a/text()')[-2].extract()
         item["class_num"] = 2
         item['specific_name'] = response.xpath('//*[@class="l_path"]/span/a/text()')[-1].extract()
         item["title"] = response.xpath('//*[@class="title"]/h1/text()').extract_first()
