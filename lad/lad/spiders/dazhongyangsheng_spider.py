@@ -5,7 +5,7 @@ from lad.items import YangshengwangItem
 
 class newsSpider(scrapy.Spider):
     name = "dazhongyangshengwang"
-    districts = ['yinshi', 'yinshi', 'zhongyi', 'shenghuoyangsheng', 'yundong']
+    districts = ['yinshi', 'yinshi', 'zhongyi', 'shenghuoyangsheng', 'yundong','zixun']
     start_urls = ['http://www.cndzys.com/%s/' % x for x in districts]
     text = ""
 
