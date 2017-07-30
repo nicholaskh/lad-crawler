@@ -37,6 +37,8 @@ class newsSpider(scrapy.Spider):
         item['image_urls'] = response.xpath('//*[@id="contentText"]/p/img/@src').extract() #提取图片链接
         if len(item['image_urls']) == 0:
             item['image_urls'] = response.xpath('//*[@class="imgcon1"]/img/@src').extract()
+        if len(item['image_urls']) == 0:
+            item['image_urls'] = response.xpath('//*[@id="contentText"]/center/img/@src').extract_first()
         item["time"] = response.xpath('//*[@class="sweetening_title"]/span[2]/text()').extract_first()
 
         text_list = response.xpath('//*[@id="contentText"]/p/text()')

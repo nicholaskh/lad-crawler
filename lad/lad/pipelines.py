@@ -19,6 +19,7 @@ class LadPipeline(object):
 
     def process_item(self, item, spider):
         # 配置七牛云属性
+        domain = 'http://oojih7o1f.bkt.clouddn.com/'
         access_key = 'wDgkTBIuUn5KnvyFzuMIr8GdC1KCRnN4KABH7dF-'
         secret_key = 'kQUvoiTx0Odyjo1OUudAJXTlGxF1Nhk1eK7YHV1n'
         q = Auth(access_key, secret_key)
@@ -27,6 +28,7 @@ class LadPipeline(object):
         dir_path = '%s/%s'%(settings['IMAGES_STORE'],spider.name) #本地存储路径
         if not os.path.exists(dir_path):
             os.makedirs(dir_path)
+        new_imgarray = []
         if len(item['image_urls']) != 0:
             for image_url in item['image_urls']:
                 list_name = image_url.split('/')
@@ -43,11 +45,17 @@ class LadPipeline(object):
 
                 # 七牛云上传图片
                 key = image_url.split('/')[-1]
+                new_url = domain + key
+                # print('hhhhhhhhhh' + new_url)
+                new_imgarray.append(new_url)
+                # print(new_imgarray)
                 token = q.upload_token(bucket_name, key)
                 localfile = file_path
                 ret, info = put_file(token, key, localfile)
                 print(info)
                 assert ret['key'] == key
                 assert ret['hash'] == etag(localfile)
+                os.remove('/home/huang/lad-crawler/lad/None/39new/' + file_name)
+        item['image_urls'] = new_imgarray
         self.coll.insert(dict(item))
         return item
