@@ -15,7 +15,7 @@ class newsSpider(scrapy.Spider):
             if len(response.url) == 26:
                 next_url = 'http://news.39.net/xinzhi/index_1.html'
             else:
-                num = int(response.url.split('_')[1][0])
+                num = int(response.url.split('_')[1].split('.')[0])
                 next_url = 'http://news.39.net/xinzhi/index_' + str(num + 1) + ".html"
             yield scrapy.Request(url=next_url, callback=self.parse)
 
