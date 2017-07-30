@@ -42,7 +42,7 @@ class LadPipeline(object):
                 file_writer.close()
 
                 # 七牛云上传图片
-                key = image_url
+                key = image_url.split('/')[-1]
                 token = q.upload_token(bucket_name, key)
                 localfile = file_path
                 ret, info = put_file(token, key, localfile)
