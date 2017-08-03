@@ -24,9 +24,14 @@ class YangshengItem(scrapy.Item):
     time = scrapy.Field()
     text = scrapy.Field()
 
+class VideoItem(scrapy.Item):
+    module = scrapy.Field() # 模块
+    video_name = scrapy.Field() # 视频名称
+    video_link = scrapy.Field() # 视频链接
+
 class YangshengwangItem(scrapy.Item):
     module = scrapy.Field() # 模块
-    class_name= scrapy.Field() # 分类名称
+    class_name = scrapy.Field() # 分类名称
     class_num = scrapy.Field() # 分类级别
     specific_name = scrapy.Field() # 分类上级名称
     title = scrapy.Field() # 标题
