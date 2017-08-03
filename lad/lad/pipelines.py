@@ -30,7 +30,7 @@ class LadPipeline(object):
             os.makedirs(dir_path)
         new_imgarray = []
         if len(item['imageUrls']) != 0:
-            for image_url in item['image_urls']:
+            for image_url in item['imageUrls']:
                 list_name = image_url.split('/')
                 file_name = list_name[len(list_name)-1]#图片名称
                 # print 'filename',file_name
