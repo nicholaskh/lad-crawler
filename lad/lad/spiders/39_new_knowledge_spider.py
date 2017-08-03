@@ -27,18 +27,18 @@ class newsSpider(scrapy.Spider):
         item = YangshengwangItem()
 
         item["module"] = "健康资讯"
-        item["class_name"] = "健康新知"
-        item["class_num"] = 1
+        item["className"] = "健康新知"
+        item["classNum"] = 1
         item["title"] = response.xpath('/html/body/div/div/div/h1/text()').extract_first()
         if item["title"] is None:
             item["title"] = response.xpath('//*[@class="title1"]/h2/text()').extract_first()
         item["source"] = "39健康网"
-        item["source_url"] = response.url
-        item['image_urls'] = response.xpath('//*[@id="contentText"]/p/img/@src').extract() #提取图片链接
-        if len(item['image_urls']) == 0:
-            item['image_urls'] = response.xpath('//*[@class="imgcon1"]/img/@src').extract()
-        if len(item['image_urls']) == 0:
-            item['image_urls'] = response.xpath('//*[@id="contentText"]/center/img/@src').extract_first()
+        item["sourceUrl"] = response.url
+        item['imageUrls'] = response.xpath('//*[@id="contentText"]/p/img/@src').extract() #提取图片链接
+        if len(item['imageUrls']) == 0:
+            item['imageUrls'] = response.xpath('//*[@class="imgcon1"]/img/@src').extract()
+        if len(item['imageUrls']) == 0:
+            item['imageUrls'] = response.xpath('//*[@id="contentText"]/center/img/@src').extract_first()
         item["time"] = response.xpath('//*[@class="sweetening_title"]/span[2]/text()').extract_first()
 
         text_list = response.xpath('//*[@id="contentText"]/p/text()')

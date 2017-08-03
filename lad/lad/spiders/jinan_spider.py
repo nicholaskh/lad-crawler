@@ -26,7 +26,7 @@ class newsSpider(scrapy.Spider):
         item = LadItem()
 
         item["city"] = "济南"
-        item["news_type"] = "警方提示"
+        item["newsType"] = "警方提示"
         item["title"] = response.xpath('//*[@id="content-title"]/h3/text()').extract_first()
         item["time"] = response.xpath('//*[@id="content-title"]/text()').extract()[1].strip()[0:10]
 

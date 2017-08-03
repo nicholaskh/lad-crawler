@@ -32,12 +32,12 @@ class newsSpider(scrapy.Spider):
         item["module"] = "健康资讯"
         key_name = response.url.split('/')[3]
         len_str = len(self.dict_news[key_name])
-        item["class_name"] = self.dict_news[key_name][1:len_str]
-        item["class_num"] = 1
+        item["className"] = self.dict_news[key_name][1:len_str]
+        item["classNum"] = 1
         item["title"] = response.xpath('//*[@id="art_box"]/div[1]/div[1]/h1/text()').extract_first()
         item["source"] = "39健康网"
-        item["source_url"] = response.url
-        item["image_urls"] = ''
+        item["sourceUrl"] = response.url
+        item["imageUrls"] = ''
         item["time"] = response.xpath('//*[@id="art_box"]/div[1]/div[1]/div[1]/div[2]/em[1]/text()').extract_first()
 
         text_list = response.xpath('//*[@id="contentText"]/p/text()')

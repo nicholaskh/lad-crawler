@@ -29,7 +29,7 @@ class newsSpider(scrapy.Spider):
         item = LadItem()
 
         item["city"] = "浙江"
-        item["news_type"] = "警官说案"
+        item["newsType"] = "警官说案"
         item["title"] = response.xpath('/html/body/table[6]/tr/td/table[2]/tr/td/table[2]/tr/td/text()').extract_first()
         time_leng = len(response.xpath('/html/body/table[6]/tr/td/table[2]/tr/td/table[3]/tr/td/table[2]/tr/td/text()').extract_first().strip())
         item["time"] = response.xpath('/html/body/table[6]/tr/td/table[2]/tr/td/table[3]/tr/td/table[2]/tr/td/text()').extract_first().strip()[time_leng - 10:time_leng]

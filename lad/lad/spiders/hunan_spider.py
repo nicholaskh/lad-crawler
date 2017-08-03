@@ -31,11 +31,11 @@ class newsSpider(scrapy.Spider):
 
         item["city"] = "湖南"
         if response.url.split('/')[5] == 'zakb':
-            item["news_type"] = "警情通报"
+            item["newsType"] = "警情通报"
         elif response.url.split('/')[5] == 'gzff':
-            item["news_type"] = "公众防范"
+            item["newsType"] = "公众防范"
         else:
-            item["news_type"] = "公众防范"
+            item["newsType"] = "公众防范"
         item["title"] = response.xpath('/html/body/div/div[1]/div[4]/div[1]/h4/text()').extract()[0].encode('utf-8')
         item["time"] = response.xpath('/html/body/div/div[1]/div[4]/div[1]/div/p[2]/text()').extract_first().encode('utf-8').split('：')[1]        #rows = list(array)
 

@@ -27,15 +27,15 @@ class newsSpider(scrapy.Spider):
         item = YangshengwangItem()
 
         item["module"] = "保健常识"
-        item["class_name"] = "养生指南"
-        item["class_num"] = 1
+        item["className"] = "养生指南"
+        item["classNum"] = 1
         item["title"] = response.xpath('//*[@class="arti-head"]/h2/text()').extract_first()
         item["source"] = "飞华保健网"
-        item["source_url"] = response.url
+        item["sourceUrl"] = response.url
         if response.xpath('//*[@style="text-align: center;"]/img/@src').extract() is None:
-            item["image_urls"] = ''
+            item["imageUrls"] = ''
         else:
-            item["image_urls"] = response.xpath('//*[@style="text-align: center;"]/img/@src').extract()
+            item["imageUrls"] = response.xpath('//*[@style="text-align: center;"]/img/@src').extract()
         item["time"] = response.xpath('/html/body/div[4]/div/div[1]/div[2]/div[1]/div/span/text()').extract_first().strip()
 
         text_list = response.xpath('//*[@class="arti-content"]/p/text()')

@@ -28,7 +28,7 @@ class newsSpider(scrapy.Spider):
     def parse_info(self, response):
         item = LadItem()
 
-        item["news_type"] = "警务动态"
+        item["newsType"] = "警务动态"
         item["title"] = response.xpath('/html/body/div[5]/div[2]/div[2]/h1/text()').extract_first()
         item["time"] = response.xpath('/html/body/div[5]/div[2]/div[2]/div[1]/span[1]/text()').extract_first()
 

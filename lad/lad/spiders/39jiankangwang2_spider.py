@@ -36,16 +36,16 @@ class newsSpider(scrapy.Spider):
         item = YangshengwangItem()
 
         item["module"] = "保健常识"
-        item["class_name"] = response.xpath('//*[@class="ClassNav"]')[-2].xpath('text()').extract_first()
-        item["specific_name"] = response.xpath('//*[@class="ClassNav"]')[-1].xpath('text()').extract_first()
-        item["class_num"] = 2
+        item["className"] = response.xpath('//*[@class="ClassNav"]')[-2].xpath('text()').extract_first()
+        item["specificName"] = response.xpath('//*[@class="ClassNav"]')[-1].xpath('text()').extract_first()
+        item["classNum"] = 2
         item["title"] = response.xpath('//*[@id="art_box"]/div[1]/div[1]/h1/text()').extract_first()
         item["source"] = "39健康网"
-        item["source_url"] = response.url
+        item["sourceUrl"] = response.url
         if response.xpath('//*[@id="contentText"]/p/img/@src').extract() is None:
-            item["image_urls"] = ''
+            item["imageUrls"] = ''
         else:
-            item["image_urls"] = response.xpath('//*[@id="contentText"]/p/img/@src').extract()
+            item["imageUrls"] = response.xpath('//*[@id="contentText"]/p/img/@src').extract()
         item["time"] = response.xpath('//*[@id="art_box"]/div[1]/div[1]/div[1]/div[2]/em[1]/text()').extract_first()
 
         text_list = response.xpath('//*[@id="contentText"]/p/text()')

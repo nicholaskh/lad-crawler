@@ -23,7 +23,7 @@ class newsSpider(scrapy.Spider):
         item = LadItem()
 
         item["city"] = "青海"
-        item["news_type"] = response.xpath('/html/body/div/div[2]/div[1]/p/a[3]/text()').extract_first()
+        item["newsType"] = response.xpath('/html/body/div/div[2]/div[1]/p/a[3]/text()').extract_first()
         item["title"] = response.xpath('/html/body/div/div[2]/div[2]/h1/text()').extract_first()
         item["time"] = response.xpath('/html/body/div/div[2]/div[2]/div[1]/span[4]/text()').extract_first()[5:16]
 

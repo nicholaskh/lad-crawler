@@ -14,13 +14,13 @@ class newsSpider(scrapy.Spider):
         item = YangshengwangItem()
 
         item["module"] = "保健常识"
-        item["class_name"] = '四季保健'
-        item["class_num"] = 3
-        item["specific_name"] = response.xpath('//*[@class="con_left"]/h1/text()').extract_first()
+        item["className"] = '四季保健'
+        item["classNum"] = 3
+        item["specificName"] = response.xpath('//*[@class="con_left"]/h1/text()').extract_first()
         item["title"] = response.xpath('//*[@class="con_left"]/h1/text()').extract_first()
         item["source"] = '大众养生网'
-        item["source_url"] = response.url
-        item['image_urls'] = response.xpath('//*[@style="text-align:center;"]/a/img/@src').extract() #提取图片链接
+        item["sourceUrl"] = response.url
+        item['imageUrls'] = response.xpath('//*[@style="text-align:center;"]/a/img/@src').extract() #提取图片链接
         item["time"] = response.xpath('//*[@class="info"]/span/text()')[1].extract()
 
         text_list = response.xpath('//*[@class="main"]/p/text()')

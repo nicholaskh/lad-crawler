@@ -28,7 +28,7 @@ class newsSpider(scrapy.Spider):
 
         item["web"] = "养生之道网"
         item["title"] = response.xpath('/html/body/div/div/h1/text()').extract_first()
-        item["yangsheng_type"] = "养生资讯"
+        item["yangshengType"] = "养生资讯"
         time_leng = len(response.xpath('/html/body/div/div/div/text()')[18].extract().strip())
         item["time"] = response.xpath('/html/body/div/div/div/text()')[18].extract().strip()[time_leng-16:time_leng]
 
