@@ -26,6 +26,7 @@ class newsSpider(scrapy.Spider):
         item = LadItem()
 
         item["city"] = "西藏"
+        item['newsType'] = '警事要闻'
         item["title"] = response.xpath('//*[@id="container"]/div[2]/div/div/div[2]/div[1]/h1/text()').extract_first()
         if response.xpath('//*[@id="container"]/div[2]/div/div/div[2]/div[2]/span[2]/text()') is None:
             item["time"] = response.xpath('//*[@id="container"]/div[2]/div/div/div/div[2]/div[2]/span[2]/text()').extract_first().split(' ')[0][5:15]

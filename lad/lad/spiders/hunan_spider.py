@@ -30,12 +30,7 @@ class newsSpider(scrapy.Spider):
         item = LadItem()
 
         item["city"] = "湖南"
-        if response.url.split('/')[5] == 'zakb':
-            item["newsType"] = "警情通报"
-        elif response.url.split('/')[5] == 'gzff':
-            item["newsType"] = "公众防范"
-        else:
-            item["newsType"] = "公众防范"
+        item["newsType"] = "警事要闻"
         item["title"] = response.xpath('/html/body/div/div[1]/div[4]/div[1]/h4/text()').extract()[0].encode('utf-8')
         item["time"] = response.xpath('/html/body/div/div[1]/div[4]/div[1]/div/p[2]/text()').extract_first().encode('utf-8').split('：')[1]        #rows = list(array)
 

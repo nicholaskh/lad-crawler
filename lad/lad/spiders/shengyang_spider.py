@@ -6,7 +6,6 @@ from lad.items import LadItem
 class newsSpider(scrapy.Spider):
     name = "shengyang"
     start_urls = ['http://www.syga.gov.cn/Article/classP/Index.html']
-    news_type = ""
     text = ""
 
     def parse(self, response):
@@ -31,7 +30,7 @@ class newsSpider(scrapy.Spider):
         item = LadItem()
 
         item["city"] = "北京"
-        item["newsType"] = self.news_type
+        item["newsType"] = '警事要闻'
         item["title"] = response.xpath('/html/body/table[3]/tr/td/table[2]/tr/td[3]/table/tr/td/table/tr[2]/td/table/tr[1]/td/font/b/text()').extract_first()
         item["time"] = response.xpath('/html/body/table[3]/tr/td/table[2]/tr/td[3]/table/tr/td/table/tr[2]/td/table/tr[2]/td/text()').extract_first().split('www.bjgaj.gov.cn')[1].strip()
 

@@ -38,7 +38,7 @@ class newsSpider(scrapy.Spider):
         item = LadItem()
 
         item["city"] = "乌鲁木齐"
-        #item["news_type"] = response.url.split('/')[5]
+        item["news_type"] = '警事要闻'
         item["title"] = response.xpath('/html/body/div[2]/table/tr/td[3]/div/div[1]/text()').extract_first()
         item["time"] = response.xpath('/html/body/div[2]/table/tr/td[3]/div/div[2]/text()').extract_first().strip().split(' ')[0]
 
