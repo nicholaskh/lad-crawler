@@ -29,7 +29,7 @@ class LadPipeline(object):
         if not os.path.exists(dir_path):
             os.makedirs(dir_path)
         new_imgarray = []
-        if len(item['imageUrls']) != 0:
+        if imageUrls != None and len(item['imageUrls']) != 0:
             for image_url in item['imageUrls']:
                 list_name = image_url.split('/')
                 file_name = list_name[len(list_name)-1]#图片名称
@@ -55,7 +55,7 @@ class LadPipeline(object):
                 print(info)
                 assert ret['key'] == key
                 assert ret['hash'] == etag(localfile)
-                os.remove('/home/huang/lad-crawler/lad/None/39new/' + file_name)
+                os.remove(localfile)
         item['imageUrls'] = new_imgarray
         self.coll.insert(dict(item))
         return item
