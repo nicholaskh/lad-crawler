@@ -46,7 +46,7 @@ class newsSpider(scrapy.Spider):
         if typeString = 'FQT':
             item["newsType"] = '其他'
         item["title"] = response.xpath('/html/body/div/div[1]/div[4]/div[1]/h4/text()').extract()[0].encode('utf-8')
-        item["time"] = response.xpath('/html/body/div/div[1]/div[4]/div[1]/div/p[2]/text()').extract_first().encode('utf-8').split('：')[1]        #rows = list(array)
+        item["time"] = '20' + response.xpath('//*[@id="publishdataa"]/text()').extract_first().split('20')[1][0:8]
 
         text_list = response.xpath('//*[@id="txtContent"]/div/div/div/p')
         if len(text_list) == 0:

@@ -21,7 +21,7 @@ class newsSpider(scrapy.Spider):
         item["source"] = '大众养生网'
         item["sourceUrl"] = response.url
         item['imageUrls'] = response.xpath('//*[@style="text-align:center;"]/a/img/@src').extract() #提取图片链接
-        item["time"] = response.xpath('//*[@class="info"]/span/text()')[1].extract()
+        item["time"] = response.xpath('//*[@class="Information"]/span[2]/text()').extract_first().split('：')[1].split(' ')[0]
 
         text_list = response.xpath('//*[@class="main"]/p/text()')
 

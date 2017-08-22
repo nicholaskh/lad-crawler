@@ -30,7 +30,8 @@ class newsSpider(scrapy.Spider):
         item["city"] = "拉萨"
         item['newsType'] = '警事要闻'
         item["title"] = response.xpath('/html/body/section/section/div/h2/text()').extract_first()
-        item["time"] = response.xpath('/html/body/section/section/div/h6/b[3]/span/text()').extract_first().split(' ')[0]
+        c = response.xpath('/html/body/section/section/div/h6/b[3]/span/text()').extract_first().split(' ')[0].split('/')
+        item["time"] = c[0] + '-' + c[1] + '-' + c[2]
 
         text_list = response.xpath('/html/body/section/section/div/section/p')
 

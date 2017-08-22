@@ -9,7 +9,7 @@ class newsSpider(scrapy.Spider):
     dict_news = {'cjbj': '6534_春季保健', 'xjbj': '6535_夏季保健','qjbj': '6539_秋季保健',
         'djbj': '6536_冬季保健','nvx': '6531_女性保健','bgs': '6537_白领保健','nxbj': '6530_男性保健',
         'lrbj': '6532_老人保健','ert': '6533_儿童保健'}
-    start_urls = ['http://news.39.net/%s/' % x for x in dict_news.keys()]
+    start_urls = ['http://care.fh21.com.cn/%s/' % x for x in dict_news.keys()]
     text = ""
 
     def parse(self, response):
@@ -42,7 +42,7 @@ class newsSpider(scrapy.Spider):
             item["imageUrls"] = ''
         else:
             item["imageUrls"] = response.xpath('//*[@class="arti-content"]/p/img/@src').extract()
-        item["time"] = response.xpath('/html/body/div[4]/div/div[1]/div[2]/div[1]/div/span/text()').extract_first().strip()
+        item["time"] = response.xpath('/html/body/div[4]/div/div[1]/div[2]/div[1]/div/span/text()').extract_first().strip().split(' ')[1]
 
         text_list = response.xpath('//*[@class="arti-content"]/p/text()')
 

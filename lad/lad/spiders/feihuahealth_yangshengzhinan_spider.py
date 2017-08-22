@@ -36,7 +36,7 @@ class newsSpider(scrapy.Spider):
             item["imageUrls"] = ''
         else:
             item["imageUrls"] = response.xpath('//*[@style="text-align: center;"]/img/@src').extract()
-        item["time"] = response.xpath('/html/body/div[4]/div/div[1]/div[2]/div[1]/div/span/text()').extract_first().strip()
+        item["time"] = response.xpath('/html/body/div[4]/div/div[1]/div[2]/div[1]/div/span/text()').extract_first().strip().split(' ')[1]
 
         text_list = response.xpath('//*[@class="arti-content"]/p/text()')
 

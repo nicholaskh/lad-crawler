@@ -1,5 +1,6 @@
 #coding=utf-8
 import scrapy
+import re
 
 from lad.items import LadItem
 
@@ -32,7 +33,9 @@ class newsSpider(scrapy.Spider):
         item["city"] = "北京"
         item["newsType"] = '警务要闻'
         item["title"] = response.xpath('/html/body/table[3]/tr/td/table[2]/tr/td[3]/table/tr/td/table/tr[2]/td/table/tr[1]/td/font/b/text()').extract_first()
-        item["time"] = response.xpath('/html/body/table[3]/tr/td/table[2]/tr/td[3]/table/tr/td/table/tr[2]/td/table/tr[2]/td/text()').extract_first().split('www.bjgaj.gov.cn')[1].strip()
+        c = response.xpath('/html/body/table[3]/tr/td/table[2]/tr/td[3]/table/tr/td/table/tr[2]/td/table/tr[2]/td/text()').extract_first().split('www.bjgaj.gov.cn')[1].strip()
+        c = re.sub("\D", "", c)
+        item["time"] = c[0:4] + '-' + c[4:6] + '-' + c[6:8]
 
         text_list = response.xpath('//*[@id="articleContent"]/p')
 
