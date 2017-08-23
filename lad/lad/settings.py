@@ -21,7 +21,7 @@ NEWSPIDER_MODULE = 'lad.spiders'
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
-IMAGES_STORE='/Users/MichealHuang/Documents/ScrapyPhotos'
+#IMAGES_STORE='/Users/MichealHuang/Documents/ScrapyPhotos'
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32

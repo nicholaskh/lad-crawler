@@ -36,7 +36,7 @@ class newsSpider(scrapy.Spider):
         item["title"] = response.xpath('/html/body/div[4]/div[1]/div/div[1]/text()').extract_first()
         item["time"] = '20' + response.xpath('/html/body/div[4]/div[1]/div/table[1]/tr/td[2]/text()').extract_first().split('20')[1].split(' ')[0]
 
-        text_list = response.xapth('//*[@id="Zoom"]/div[1]/div/div/p/font/font/font/font/font/span')
+        text_list = response.xpath('//*[@id="Zoom"]/div[1]/div/div/p/font/font/font/font/font/span')
         if len(text_list) == 0:
             text_list = response.xpath('//*[@id="Zoom"]/div[1]/div/div/p/font/font/font/font/span')
         if len(text_list) == 0:
