@@ -33,17 +33,17 @@ class newsSpider(scrapy.Spider):
 
         item["city"] = "深圳"
         typeString = response.url.split('/')[5]
-        if typeString = 'FH':
+        if typeString == 'FH':
             item["newsType"] = '防火'
-        if typeString = 'FD':
+        if typeString == 'FD':
             item["newsType"] = '防盗'
-        if typeString = 'FP':
+        if typeString =='FP':
             item["newsType"] = '防骗'
-        if typeString = 'FSG':
+        if typeString == 'FSG':
             item["newsType"] = '防事故'
-        if typeString = 'FQ':
+        if typeString == 'FQ':
             item["newsType"] = '防抢'
-        if typeString = 'FQT':
+        if typeString == 'FQT':
             item["newsType"] = '其他'
         item["title"] = response.xpath('/html/body/div/div[1]/div[4]/div[1]/h4/text()').extract()[0].encode('utf-8')
         item["time"] = '20' + response.xpath('//*[@id="publishdataa"]/text()').extract_first().split('20')[1][0:8]
