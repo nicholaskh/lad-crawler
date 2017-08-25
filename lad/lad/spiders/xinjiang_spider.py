@@ -3,6 +3,7 @@ import scrapy
 import re
 
 from lad.items import LadItem
+from lad.spiders.beautifulSoup import processText
 
 class newsSpider(scrapy.Spider):
     name = "xinjiang"

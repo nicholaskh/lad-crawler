@@ -6,10 +6,11 @@
 # http://doc.scrapy.org/en/latest/topics/items.html
 
 import scrapy
+from scrapy.conf import settings
 
 
 class LadItem(scrapy.Item):
-
+    collection = settings['COLLECTION_SECURITY']
     title = scrapy.Field()
     newsType = scrapy.Field()
     time = scrapy.Field()
@@ -17,7 +18,7 @@ class LadItem(scrapy.Item):
     city = scrapy.Field()
 
 class YangshengItem(scrapy.Item):
-
+    collection = settings['COLLECTION_HEALTH']
     web = scrapy.Field()
     title = scrapy.Field()
     yangshengType = scrapy.Field()
@@ -25,11 +26,13 @@ class YangshengItem(scrapy.Item):
     text = scrapy.Field()
 
 class VideoItem(scrapy.Item):
+    collection = settings['COLLECTION_HEALTH']
     module = scrapy.Field() # 模块
     videoName = scrapy.Field() # 视频名称
     videoLink = scrapy.Field() # 视频链接
 
 class YangshengwangItem(scrapy.Item):
+    collection = settings['COLLECTION_HEALTH']
     module = scrapy.Field() # 模块
     className = scrapy.Field() # 分类名称
     classNum = scrapy.Field() # 分类级别
