@@ -26,6 +26,7 @@ class LadPipeline(object):
         self.name_to_coll[coll_name_security] = coll_security
         self.name_to_coll[coll_name_health] = coll_health
 
+        # 配置七牛云属性
         self.qiniu_domain = settings['QINIU_DOMAIN']
         self.qiniu_access_key = settings['QINIU_ACCESS_KEY']
         self.qiniu_secret_key = settings['QINIU_SECRET_KEY']
@@ -51,7 +52,6 @@ class LadPipeline(object):
                 self.qiniu_client = Auth(self.qiniu_access_key, self.qiniu_secret_key)
 
             new_imgarray = list()
-            item['imageUrls'] = new_imgarray
 
             dir_path = '%s/%s'%(settings['IMAGES_STORE'], spider.name) #本地存储路径
             if not os.path.exists(dir_path):
@@ -76,4 +76,6 @@ class LadPipeline(object):
                 token = self.qiniu_client.upload_token(self.qiniu_bucket_name, key)
                 put_file(token, key, file_path)
 
-                os.remove(localfile)
+                os.remove(file_path)
+            item['imageUrls'] = new_imgarray
+            return item

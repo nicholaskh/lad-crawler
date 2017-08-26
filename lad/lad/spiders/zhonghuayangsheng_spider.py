@@ -2,6 +2,7 @@
 import scrapy
 
 from lad.items import YangshengItem
+from lad.spiders.beautifulSoup import processText
 
 class newsSpider(scrapy.Spider):
     name = "zhonghuayangsheng"
@@ -33,22 +34,12 @@ class newsSpider(scrapy.Spider):
         item["time"] = response.xpath('/html/body/div/div/div/div[2]/text()').extract_first()[0:9]
 
         if response.xpath('/html/body/div/div/div/div/a')[-1].xpath('@href').extract_first() is None:
-            text_list = response.xpath('/html/body/div/div/div/div/p/text()')
-            for p_slt in text_list:
-                if p_slt.extract() is None:
-                    self.text = self.text
-                else:
-                    self.text = self.text + p_slt.extract()
-            item["text"] = self.text
+            text_list = response.xpath('//*[@class="arti-content"]/*')
+            item["text"] = processText(text_list)
         else:
             next_url_req = response.xpath('/html/body/div/div/div/div/a')[-1].xpath('@href').extract_first()
-            text_list = response.xpath('/html/body/div/div/div/div/p/text()')
-            for p_slt in text_list:
-                if p_slt.extract() is None:
-                    self.text = self.text
-                else:
-                    self.text = self.text + p_slt.extract()
-            item["text"] = self.text
+            text_list = response.xpath('/html/body/div/div/div/div/*')
+            item["text"] = processText(text_list)
             yield scrapy.Request(url=next_url_req, callback=self.parse_info)
 
         yield item

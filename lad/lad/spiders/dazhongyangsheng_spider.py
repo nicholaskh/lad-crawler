@@ -2,6 +2,7 @@
 import scrapy
 
 from lad.items import YangshengwangItem
+from lad.spiders.beautifulSoup import processText
 
 class newsSpider(scrapy.Spider):
     name = "dazhongyangshengwang"
@@ -32,15 +33,9 @@ class newsSpider(scrapy.Spider):
         item['imageUrls'] = response.xpath('//*[@style="text-align:center;"]/a/img/@src').extract() #提取图片链接
         item["time"] = response.xpath('//*[@class="info"]/span/text()')[1].extract().split(':')[1].split(' ')[0]
 
-        text_list = response.xpath('//*[@class="content_text"]/p/text()')
+        text_list = response.xpath('//*[@class="content_text"]/*')
 
-        for p_slt in text_list:
-            if p_slt.extract() is None:
-                self.text = self.text
-            else:
-                self.text = self.text + p_slt.extract()
-        item["text"] = self.text
-        self.text = ""
+        item["text"] = processText(text_list)
 
         if len(response.xpath('//*[@class=" paging"]/a/text()')) > 0:
             if response.xpath('//*[@class=" paging"]/a/text()')[-1].extract().encode('utf-8') == '下一页':

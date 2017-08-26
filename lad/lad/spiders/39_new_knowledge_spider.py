@@ -2,6 +2,7 @@
 import scrapy
 
 from lad.items import YangshengwangItem
+from lad.spiders.beautifulSoup import processText
 
 class newsSpider(scrapy.Spider):
     name = "39new"
@@ -41,16 +42,11 @@ class newsSpider(scrapy.Spider):
             item['imageUrls'] = response.xpath('//*[@id="contentText"]/center/img/@src').extract_first()
         item["time"] = response.xpath('//*[@class="sweetening_title"]/span[2]/text()').extract_first()
 
-        text_list = response.xpath('//*[@id="contentText"]/p/text()')
+        text_list = response.xpath('//*[@id="contentText"]/*')
         if len(text_list) == 0:
-            text_list = response.xpath('//*[@class="detail_con"]/p/text()')
+            text_list = response.xpath('//*[@class="detail_con"]/*')
 
-        for p_slt in text_list:
-            if p_slt.extract() is None:
-                self.text = self.text
-            else:
-                self.text = self.text + p_slt.extract()
-        item["text"] = self.text
+        item["text"] = processText(text_list)
         self.text = ""
 
         yield item

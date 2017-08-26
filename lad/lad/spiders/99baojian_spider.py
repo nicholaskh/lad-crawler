@@ -2,6 +2,7 @@
 import scrapy
 
 from lad.items import YangshengwangItem
+from lad.spiders.beautifulSoup import processText
 
 class newsSpider(scrapy.Spider):
     name = "99yiji"
@@ -9,7 +10,6 @@ class newsSpider(scrapy.Spider):
     dict_news = {'zyys/jjys': '2_居家养生','zyys/ysyd': '2_养生有道',
         'zyys/nvys': '2_女人养生','zyys/nvys': '2_男人养生','zyys/sjys': '2_四季养生','zyjb': '中医疾病','changshi': '中医常识'}
     start_urls = ['http://zyk.99.com.cn/%s/' % x for x in dict_news.keys()]
-    text = ''
 
     def parse(self, response):
         if len(response.xpath('//*[@class="one_list"]/div')) == 15:
@@ -41,14 +41,8 @@ class newsSpider(scrapy.Spider):
             item["imageUrls"] = response.xpath('//*[@align="center"]/a/img/@src').extract()
         item["time"] = response.xpath('//*[@class="l_time"]/span/text()').extract_first().split(' ')[0]
 
-        text_list = response.xpath('//*[@id="Page"]/div/div/div/div/div/p/text()')
+        text_list = response.xpath('//*[@id="Page"]/div/div/div/div/div/*')
 
-        for p_slt in text_list:
-            if p_slt.extract() is None:
-                self.text = self.text
-            else:
-                self.text = self.text + p_slt.extract()
-        item["text"] = self.text
-        self.text = ""
+        item["text"] = processText(text_list)
 
         yield item

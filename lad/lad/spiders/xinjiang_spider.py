@@ -57,11 +57,7 @@ class newsSpider(scrapy.Spider):
         if len(text_list) <= 1:
             text_list = response.xpath('/html/body/div[1]/div[2]/div[2]/div/div/div[5]/span')
         if len(text_list) > 1:
-            for p_list in text_list:
-                if p_list.xpath('text()').extract_first() is None:
-                    self.text = self.text
-                else:
-                    self.text = self.text + p_list.xpath('text()').extract_first()
+            self.text = processText(text_list)
         else:
             self.text = response.xpath('/html/body/div[1]/div[2]/div[2]/div/div/div[5]/span/text()').extract_first()
         item["text"] = self.text
