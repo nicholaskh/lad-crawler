@@ -16,6 +16,7 @@ class LadItem(scrapy.Item):
     time = scrapy.Field()
     text = scrapy.Field()
     city = scrapy.Field()
+    sourceUrl = scrapy.Field() # 来源网址
 
 class YangshengItem(scrapy.Item):
     collection = settings['COLLECTION_HEALTH']
