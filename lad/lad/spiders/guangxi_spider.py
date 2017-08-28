@@ -2,6 +2,7 @@
 import scrapy
 
 from lad.items import LadItem
+from lad.spiders.beautifulSoup import processText
 
 class newsSpider(scrapy.Spider):
     name = "guangxi"
@@ -32,22 +33,12 @@ class newsSpider(scrapy.Spider):
         item["city"] = "广西"
         item["newsType"] = "警事要闻"
         item["title"] = response.xpath('/html/body/div[3]/div[2]/div[2]/div[1]/text()').extract_first()
-        item["time"] = response.xpath('/html/body/div[3]/div[2]/div[2]/div[2]/text()[1]').extract_first().strip()[0:10]
+        item["time"] = response.xpath('//*[@class="dateDetail heightLine"]/text()').extract_first().strip()[0:10]
+        #item["time"] = response.xpath('/html/body/div[3]/div[2]/div[2]/div[2]/text()[1]').extract_first().strip()[0:10]
 
-        text_list = response.xpath('/html/body/div[3]/div[2]/div[2]/div[3]/p/span/span/span')
-        if len(text_list) == 0:
-            text_list = response.xpath('/html/body/div[3]/div[2]/div[2]/div[3]/h1/span')
-        if len(text_list) == 0:
-            text_list = response.xpath('/html/body/div[3]/div[2]/div[2]/div[3]/p/span')
-        if len(text_list) == 0:
-            text_list = response.xpath('/html/body/div[3]/div[2]/div[2]/div[3]/div/span')
-
-        for str_slt in text_list:
-            if str_slt.xpath('text()').extract_first() is None:
-                self.text = self.text
-            else:
-                self.text = self.text + str_slt.xpath('text()').extract_first()
-        item["text"] = self.text
+        text_list = response.xpath('//*[@class="text"]/*')
+        item["text"] = processText(text_list)
+        
         self.text = ""
 
         yield item

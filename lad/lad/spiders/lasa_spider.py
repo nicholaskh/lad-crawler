@@ -34,7 +34,7 @@ class newsSpider(scrapy.Spider):
         item["time"] = c[0] + '-' + c[1] + '-' + c[2]
 
         text_list = response.xpath('/html/body/section/section/div/section/p')
-        if len(text_list) = 0:
+        if len(text_list) == 0:
             text_list = response.xpath('//*[@class="main_para_txt"]/p')
 
         for str_slt in text_list:
