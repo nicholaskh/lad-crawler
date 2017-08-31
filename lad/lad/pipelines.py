@@ -11,8 +11,7 @@ from qiniu import Auth, put_file, etag, urlsafe_base64_encode
 import qiniu.config
 
 class LadPipeline(object):
-
-
+    
     def __init__(self):
         self.client = pymongo.MongoClient(host=settings['MONGO_HOST'], port=settings['MONGO_PORT'])
         self.db = self.client[settings['MONGO_DB']]
