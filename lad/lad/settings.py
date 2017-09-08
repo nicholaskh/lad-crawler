@@ -73,7 +73,7 @@ MONGO_PORT = 27017  # 端口号
 MONGO_DB = "news"  # 库名
 COLLECTION_SECURITY = 'security_backup'
 COLLECTION_HEALTH = 'health_backup'
-COLLECTION_VIDEO = 'video'
+COLLECTION_VIDEO = 'video_backup'
 
 # 配置七牛云属性
 QINIU_DOMAIN = 'http://oojih7o1f.bkt.clouddn.com/'

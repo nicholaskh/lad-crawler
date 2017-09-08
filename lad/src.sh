@@ -28,5 +28,6 @@ scrapy crawl hainan &
 scrapy crawl hangzhou &
 scrapy crawl jiangsu &
 scrapy crawl nanjing &
-scrapy crawl jinan
-
+scrapy crawl jinan &
+scrapy crawl baishanxi &
+scrapy crawl yangshengvideo

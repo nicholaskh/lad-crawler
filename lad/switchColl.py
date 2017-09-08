@@ -15,7 +15,6 @@ COLL_SECURITY = 'video'
 # 数据库名
 DB_NAME = 'news'
 
-
 #连接到数据库
 conn = MongoClient(host="127.0.0.1", port=27017)
 news = conn[DB_NAME]
