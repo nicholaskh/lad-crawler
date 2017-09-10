@@ -10,22 +10,20 @@ class newsSpider(scrapy.Spider):
     text = ""
 
     def parse(self, response):
-        if len(response.xpath('/html/body/div/div[1]/div[4]/div[2]/ul/li')) == 16:
+        if len(response.xpath('//*[@class="listnums"]/li/a/@href')) == 15:
             #判断是否是最后一页,不是的话执行下面逻辑
             if len(response.url) < 38:
-                next_url_part = "index_" + str(1) + ".html"
+                next_url_part = "index_" + str(1) + ".htm"
                 next_url = response.url + next_url_part
             else:
                 part_str = response.url.split('/')[6]
                 num = int(part_str[6])
-                next_url_part = "index_" + str(num + 1) + ".html"
-                url_len = len(response.url)
-                next_url = response.url[0:(url_len) - 12] + next_url_part
+                next_url = response.url.split('_')[0] + '_' + str(num+1) + '.htm'
             yield scrapy.Request(url=next_url, callback=self.parse)
 
-        for infoDiv in response.xpath('/html/body/div/div[1]/div[4]/div[2]/ul/li')[1:15]:
-            info_url = infoDiv.extract().encode('utf-8').split('.')[1]
-            n_url = response.url.split('index')[0] + info_url[1:len(info_url)] + ".html"
+        for infoDiv in response.xpath('//*[@class="listnums"]/li/a/@href').extract():
+            info_url = infoDiv.split('./')[1]
+            n_url = response.url.split('index')[0] + info_url
             yield scrapy.Request(url=n_url, callback=self.parse_info)
 
     def parse_info(self, response):
@@ -45,7 +43,7 @@ class newsSpider(scrapy.Spider):
             item["newsType"] = '防抢'
         if typeString == 'FQT':
             item["newsType"] = '其他'
-        item["title"] = response.xpath('/html/body/div/div[1]/div[4]/div[1]/h4/text()').extract()[0].encode('utf-8')
+        item["title"] = response.xpath('//*[@class="detatit"]/h4/text()').extract_first()
         item["time"] = '20' + response.xpath('//*[@id="publishdataa"]/text()').extract_first().split('20')[1][0:8]
 
         text_list = response.xpath('//*[@id="txtContent"]/div/div/div/p')
