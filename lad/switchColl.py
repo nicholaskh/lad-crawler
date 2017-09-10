@@ -10,8 +10,8 @@ COLL_HEALTH = 'health'
 COLL_SECURITY_BACKUP = 'security_backup'
 COLL_SECURITY = 'security'
 # 视频collection
-COLL_SECURITY_BACKUP = 'video_backup'
-COLL_SECURITY = 'video'
+COLL_VIDEO_BACKUP = 'video_backup'
+COLL_VIDEO = 'video'
 # 数据库名
 DB_NAME = 'news'
 
@@ -43,6 +43,6 @@ coll_video_backup = news[COLL_VIDEO_BACKUP]
 try:
 	coll_health_backup.rename(COLL_HEALTH, dropTarget=True)
 	coll_security_backup.rename(COLL_SECURITY, dropTarget=True)
-	coll_video_backup.rename(COLLECTION_VIDEO, dropTarget=True)
+	coll_video_backup.rename(COLL_VIDEO, dropTarget=True)
 except Exception, e:
 	print u'切换失败: %s' % str(e)
