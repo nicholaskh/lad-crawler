@@ -44,6 +44,11 @@ class BaseMongoSpider(BaseSpider):
         self.__connect = pymongo.MongoClient(host=settings['MONGO_HOST'], port=settings['MONGO_PORT'])
         self.__db = self.__connect[settings['MONGO_DB']]
 
+        try:
+            self.__db.authenticate(name=settings['USERNAME'], password=settings['PASSWORD'])
+        except TypeError, e:
+            raise Exception(u'MONGODB数据库用户名或密码错误，认证失败: %s' % e.message)
+
     def get_collection(self, name):
         '''
             获取数据库中的某个collection

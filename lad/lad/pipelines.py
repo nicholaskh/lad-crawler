@@ -14,6 +14,12 @@ class LadPipeline(BasePipeline):
         self.client = pymongo.MongoClient(host=settings['MONGO_HOST'], port=settings['MONGO_PORT'])
         self.db = self.client[settings['MONGO_DB']]
 
+        # TODO 是否应该把对MONGODB的连接对象都保持在spider内部
+        try:
+            self.db.authenticate(name=settings['USERNAME'], password=settings['PASSWORD'])
+        except TypeError, e:
+            raise Exception(u'MONGODB数据库用户名或密码错误，认证失败: %s' % e.message)
+
         coll_name_health = settings['COLLECTION_HEALTH']
         coll_name_security = settings['COLLECTION_SECURITY']
         coll_health = self.db[coll_name_health]
@@ -50,21 +56,24 @@ class LadPipeline(BasePipeline):
 
             new_imgarray = list()
 
-            dir_path = '%s/%s'%(settings['IMAGES_STORE'], spider.name) #本地存储路径
+            # 本地存储路径
+            dir_path = '%s/%s' % (settings['IMAGES_STORE'], spider.name)
             if not os.path.exists(dir_path):
                 os.makedirs(dir_path)
 
             if item['imageUrls'] is not None:
                 for image_url in item['imageUrls']:
                     list_name = image_url.split('/')
-                    file_name = list_name[len(list_name)-1]#图片名称
+                    # 图片名称
+                    file_name = list_name[len(list_name)-1]
 
                     file_path = '%s/%s' % (dir_path, file_name)
 
                     if os.path.exists(file_name):
                         continue
                     with open(file_path,'wb') as file_writer:
-                        conn = urllib.urlopen(image_url)#下载图片
+                        # 下载图片
+                        conn = urllib.urlopen(image_url)
                         file_writer.write(conn.read())
 
                     # 七牛云上传图片
