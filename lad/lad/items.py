@@ -27,12 +27,9 @@ class YangshengItem(scrapy.Item):
     text = scrapy.Field()
 
 class VideoItem(scrapy.Item):
-    collection = settings['COLLECTION_VIDEO']
-    title = scrapy.Field() # 标题
-    time = scrapy.Field() # 时间
-    text = scrapy.Field() # 文本
-    source = scrapy.Field() # 网站名称
-    sourceUrl = scrapy.Field() # 网址
+    collection = settings['COLLECTION_HEALTH']
+    module = scrapy.Field() # 模块
+    videoName = scrapy.Field() # 视频名称
     videoLink = scrapy.Field() # 视频链接
 
 class YangshengwangItem(scrapy.Item):

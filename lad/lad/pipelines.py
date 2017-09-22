@@ -3,30 +3,25 @@
 import pymongo
 import os
 import urllib
-import scrapy
 from scrapy.conf import settings
-from scrapy.exceptions import DropItem
-from scrapy.pipelines.images import ImagesPipeline
-from qiniu import Auth, put_file, etag, urlsafe_base64_encode
-import qiniu.config
+from qiniu import Auth, put_file
+from pipeline.basepipeline import BasePipeline
 
-class LadPipeline(object):
 
+class LadPipeline(BasePipeline):
+    
     def __init__(self):
         self.client = pymongo.MongoClient(host=settings['MONGO_HOST'], port=settings['MONGO_PORT'])
         self.db = self.client[settings['MONGO_DB']]
 
         coll_name_health = settings['COLLECTION_HEALTH']
         coll_name_security = settings['COLLECTION_SECURITY']
-        coll_name_video = settings['COLLECTION_VIDEO']
         coll_health = self.db[coll_name_health]
         coll_security = self.db[coll_name_security]
-        coll_video = self.db[coll_name_video]
 
         self.name_to_coll = dict()
         self.name_to_coll[coll_name_security] = coll_security
         self.name_to_coll[coll_name_health] = coll_health
-        self.name_to_coll[coll_name_video] = coll_video
 
         # 配置七牛云属性
         self.qiniu_domain = settings['QINIU_DOMAIN']
