@@ -3,30 +3,29 @@
 cd /home/huang/lad-crawler/lad
 
 echo `date '+%Y-%m-%d %H:%M:%S'` >> runtime.log
-scrapy crawl 39new &
-scrapy crawl 39health1 &
-scrapy crawl 39health2 &
-scrapy crawl 39health3 &
-scrapy crawl 99yiji &
-scrapy crawl 99yiji2 &
-scrapy crawl dazhongyangshengwang &
-scrapy crawl dazhongyangshengwang2 &
-scrapy crawl feihua1 &
-scrapy crawl feihua2 &
-scrapy crawl shenzhen &
-scrapy crawl beijing &
-scrapy crawl Urumqi &
+scrapy crawl 39newnew &
+scrapy crawl 39health1new &
+scrapy crawl 39health2new &
+scrapy crawl 39health3new &
+scrapy crawl 99yijinew &
+scrapy crawl 99yiji2new &
+scrapy crawl dazhongyangshengwangnew &
+scrapy crawl dazhongyangshengwang2 & #不变
+scrapy crawl feihua1new &
+scrapy crawl feihua2new &
+scrapy crawl shenzhennew &
+scrapy crawl beijing & # 不变
+scrapy crawl Urumqi & # 不变
 scrapy crawl xinjiang &
-scrapy crawl lasa &
-scrapy crawl lanzhou &
-scrapy crawl qinghai &
-scrapy crawl kunming &
-scrapy crawl neimenggu &
-scrapy crawl sichuan &
-scrapy crawl guangxi &
-scrapy crawl hainan &
-scrapy crawl hangzhou &
-scrapy crawl jiangsu &
-scrapy crawl nanjing &
-scrapy crawl jinan
+scrapy crawl lasanew &
+scrapy crawl lanzhounew &
+scrapy crawl qinghai & # 不变
+scrapy crawl kunming & # 不变
+scrapy crawl neimenggunew &
+scrapy crawl sichuannew &
+scrapy crawl guangxinew &
+scrapy crawl hainan & # 不变
+scrapy crawl jiangsu & # 不变
+scrapy crawl nanjing & # 不变
+scrapy crawl jinannew
 
