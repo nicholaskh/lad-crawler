@@ -17,6 +17,9 @@ class LadItem(scrapy.Item):
     text = scrapy.Field()
     city = scrapy.Field()
     sourceUrl = scrapy.Field() # 来源网址
+    is_final_child = scrapy.Field()
+    next_father_url = scrapy.Field()
+    sourceUrl = scrapy.Field()
 
 class YangshengItem(scrapy.Item):
     collection = settings['COLLECTION_HEALTH']
@@ -45,3 +48,5 @@ class YangshengwangItem(scrapy.Item):
     images = scrapy.Field() # 图片
     time = scrapy.Field() # 时间
     text = scrapy.Field() # 文本
+    is_final_child = scrapy.Field()
+    next_father_url = scrapy.Field()
