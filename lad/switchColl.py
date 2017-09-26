@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from pymongo import MongoClient
+from scrapy.conf import settings
 
 # 健康collection
 COLL_HEALTH_BACKUP = 'health_backup'
@@ -14,8 +15,12 @@ DB_NAME = 'news'
 
 
 #连接到数据库
-conn = MongoClient(host="127.0.0.1", port=27017)
+conn = MongoClient(host=settings['MONGO_HOST'], port=settings['MONGO_PORT'])
 news = conn[DB_NAME]
+try:
+	news.authenticate(name=settings['USERNAME'], password=settings['PASSWORD'])
+except TypeError, e:
+	raise Exception(u'MONGODB数据库用户名或密码错误，认证失败: %s' % e.message)
 news.drop_collection("health")
 news.drop_collection("security")
 
