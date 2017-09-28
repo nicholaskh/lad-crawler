@@ -2,7 +2,7 @@
 import scrapy
 
 from ..items import YangshengwangItem
-from ..spiders.beautifulSoup import processText
+from ..spiders.beautifulSoup import processText, processImg
 from datetime import datetime
 from basespider import BaseTimeCheckSpider
 
@@ -79,10 +79,8 @@ class newsSpider(BaseTimeCheckSpider):
         item["title"] = response.xpath('//*[@id="art_box"]/div[1]/div[1]/h1/text()').extract_first()
         item["source"] = "39健康网"
         item["sourceUrl"] = response.url
-        if response.xpath('//*[@id="contentText"]/p/img/@src').extract() is None:
-            item["imageUrls"] = ''
-        else:
-            item["imageUrls"] = response.xpath('//*[@id="contentText"]/p/img/@src').extract()
+        img_list = response.xpath('//*[@id="contentText"]').extract_first()
+        item['imageUrls'] = processImg(text_list)
         item["time"] = response.xpath('//*[@id="art_box"]/div[1]/div[1]/div[1]/div[2]/em[1]/text()').extract_first()
 
         text_list = response.xpath('//*[@id="contentText"]/*')
