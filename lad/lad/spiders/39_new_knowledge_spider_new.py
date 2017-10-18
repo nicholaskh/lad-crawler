@@ -10,7 +10,6 @@ class NewsSpider(BaseTimeCheckSpider):
 
     name = "39newnew"
     start_urls = ['http://news.39.net/xinzhi/']
-    text = ""
 
     def parse(self, response):
 
@@ -79,7 +78,6 @@ class NewsSpider(BaseTimeCheckSpider):
             text_list = response.xpath('//*[@class="detail_con"]/*')
 
         item["text"] = processText(text_list)
-        self.text = ""
 
         yield item
 

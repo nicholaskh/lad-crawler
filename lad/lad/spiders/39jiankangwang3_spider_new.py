@@ -2,7 +2,7 @@
 import scrapy
 
 from ..items import YangshengwangItem
-from ..spiders.beautifulSoup import processText
+from ..spiders.beautifulSoup import processText,processImg
 from datetime import datetime
 from basespider import BaseTimeCheckSpider
 
@@ -70,15 +70,15 @@ class newsSpider(BaseTimeCheckSpider):
     def parse_info(self, response):
         item = response.meta['item']
 
-        item["module"] = "保健常识"
-        item["className"] = response.xpath('//*[@class="ClassNav"]')[-2].xpath('text()').extract_first()
-        item["specificName"] = response.xpath('//*[@class="ClassNav"]')[-1].xpath('text()').extract_first()
-        item["classNum"] = 3
+        item["module"] = "健康资讯"
+        item["className"] = '四季保健'
+        item["specificName"] = response.xpath('//*[@class="ClassNav"]')[-2].xpath('text()').extract_first()
+        item["classNum"] = 2
         item["title"] = response.xpath('//*[@id="art_box"]/div[1]/div[1]/h1/text()').extract_first()
         item["source"] = "39健康网"
         item["sourceUrl"] = response.url
         img_list = response.xpath('//*[@id="contentText"]').extract_first()
-        item['imageUrls'] = processImg(text_list)
+        item['imageUrls'] = processImg(img_list)
         item["time"] = response.xpath('//*[@id="art_box"]/div[1]/div[1]/div[1]/div[2]/em[1]/text()').extract_first()
 
         text_list = response.xpath('//*[@id="contentText"]/*')

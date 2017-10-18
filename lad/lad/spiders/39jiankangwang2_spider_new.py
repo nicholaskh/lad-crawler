@@ -1,5 +1,6 @@
 #coding=utf-8
 import scrapy
+import re
 
 from ..items import YangshengwangItem
 from ..spiders.beautifulSoup import processText, processImg
@@ -8,13 +9,13 @@ from basespider import BaseTimeCheckSpider
 
 class newsSpider(BaseTimeCheckSpider):
     name = "39health2new"
-    dict_commens = {'ys/jkdsy': '2健康大视野',
-        'ys/shyp': '2生活用品','ys/shcs': '2生活常识','ys/shxg': '2生活习惯','ys/yswq': '2养生误区',
-        'ys/jj': '2居家保健','dzbj': '1保健人群','dzbj/woman': '2女性保健','dzbj/man': '2男性保健',
-        'dzbj/oldman': '2老人保健','dzbj/baby': '2儿童保健','ys/mxys': '2名人养生',
-        'jbyf/jzb': '2颈椎病','jbyf/az': '2癌症','jbyf/xxg': '2心血管','yjk/zzyf/sm': '2失眠',
-        'yjk/zzyf/pl': '2疲劳','yjk/zzyf/zhz': '2综合症','ys/jkjj': '2健康纠结','ys/jkjj': '2养生指南'
-    }
+    dict_commens = {
+        'ys/shyp': '2生活用品&生活保健','ys/shcs': '2生活常识&生活保健','ys/shxg': '2生活习惯&生活保健','ys/yswq': '2养生误区&生活保健',
+        'ys/jj': '2居家保健&生活保健','dzbj/woman': '2女性保健&保健人群','dzbj/man': '2男性保健&保健人群',
+        'dzbj/oldman': '2老人保健&保健人群','dzbj/baby': '2儿童保健&保健人群','ys/mxys': '2名人养生&保健人群',
+        'jbyf/jzb': '2颈椎病&疾病预防','jbyf/az': '2癌症&疾病预防','jbyf/xxg': '2心血管&疾病预防','yjk/zzyf/sm': '2失眠&亚健康',
+        'yjk/zzyf/pl': '2疲劳&亚健康','yjk/zzyf/zhz': '2综合症&亚健康'
+        }
     start_urls = ['http://care.39.net/%s/' % x for x in dict_commens.keys()]
 
     def parse(self, response):
@@ -62,6 +63,11 @@ class newsSpider(BaseTimeCheckSpider):
             hit_time = times[index]
             m_item = YangshengwangItem()
             m_item['time'] = hit_time
+            m_item["classNum"] = 2
+            key_word = re.search('net/(.+)/', response.url).group(1)
+            total_str = self.dict_commens[key_word]
+            m_item["className"] = total_str.split('&')[1]
+            m_item["specificName"] = total_str.split('&')[0][1:]
             # 相当于在request中加入了item这个元素
             req.meta['item'] = m_item
             next_requests.append(req)
@@ -72,15 +78,12 @@ class newsSpider(BaseTimeCheckSpider):
     def parse_info(self, response):
         item = response.meta['item']
 
-        item["module"] = "保健常识"
-        item["className"] = response.xpath('//*[@class="ClassNav"]')[-2].xpath('text()').extract_first()
-        item["specificName"] = response.xpath('//*[@class="ClassNav"]')[-1].xpath('text()').extract_first()
-        item["classNum"] = 2
+        item["module"] = "健康资讯"
         item["title"] = response.xpath('//*[@id="art_box"]/div[1]/div[1]/h1/text()').extract_first()
         item["source"] = "39健康网"
         item["sourceUrl"] = response.url
         img_list = response.xpath('//*[@id="contentText"]').extract_first()
-        item['imageUrls'] = processImg(text_list)
+        item['imageUrls'] = processImg(img_list)
         item["time"] = response.xpath('//*[@id="art_box"]/div[1]/div[1]/div[1]/div[2]/em[1]/text()').extract_first()
 
         text_list = response.xpath('//*[@id="contentText"]/*')
