@@ -23,7 +23,7 @@ class newsSpider(BaseTimeCheckSpider):
 
         for time, url in zip(times, urls):
             try:
-                time_now = datetime.strptime(time.encode('utf-8'), '%Y年%m月%d日 %H:%M')
+                time_now = datetime.strptime(time.encode('utf-8'), '%Y/%m/%d %H:%M:%S')
                 self.update_last_time(time_now)
             except:
                 break
