@@ -1,5 +1,6 @@
 #coding=utf-8
 import scrapy
+import re
 
 from ..items import YangshengwangItem
 from ..spiders.beautifulSoup import processText
@@ -9,8 +10,20 @@ from basespider import BaseTimeCheckSpider
 class NewsSpider(BaseTimeCheckSpider):
 
     name = "dazhongyangshengwangnew"
-    districts = ['yinshi', 'yinshi', 'zhongyi', 'shenghuoyangsheng', 'yundong','zixun']
-    start_urls = ['http://www.cndzys.com/%s/' % x for x in districts]
+    dict_news = {'yinshi/changshi':'2_营养饮食_饮食养生','yinshi/shipu':'2_饮食食谱_饮食养生','yinshi/dapei':'2_饮食搭配_饮食养生',
+                 'yinshi/cunchu':'2_食材存储_饮食养生','yinshi/shanghuo':'2_上火饮食_饮食养生','yinshi/tiaoxuan':'2_挑选技巧_饮食养生',
+                 'yinshi/jinji':'2_禁忌_饮食养生',
+                 'renqun/nvxing':'2_女性保健_保健人群','renqun/nanxing':'2_男性保健_保健人群','renqun/laoren':'2_老人保健_保健人群',
+                 'renqun/ertong':'2_儿童保健_保健人群','renqun/muying':'2_母婴保健_保健人群','renqun/teshu':'2_特殊人群保健_保健人群',
+                 'renqun/mingren':'2_名人养生_保健人群',
+                 'zhongyi/changshi':'2_中医常识_中医养生','zhongyi/tizhi':'2_体质养生_中医养生','zhongyi/zhongcaoyao':'2_中草药百科_中医养生',
+                 'zhongyi/yaoshan':'2_药膳食疗_中医养生','zhongyi/jingluo':'2_经络养生_中医养生',
+                 'shenghuoyangsheng/jujia':'2_居家保健_生活保健','shenghuoyangsheng/jianfei':'2_减肥_生活保健','shenghuoyangsheng/meirong':'2_美容_生活保健',
+                 'yundong/changshi':'2_运动常识_运动养生','yundong/qicai':'2_运动器材_运动养生','yundong/yingyang':'2_运动营养_运动养生',
+                 'yundong/huwai':'2_户外_运动养生','yundong/jianshen':'2_健身_运动养生','yundong/yujia':'2_瑜伽_运动养生',
+                 'zixun/xingainian':'1_健康新知','zixun/baoguang':'1_曝光台','zixun/xinwen':'1_焦点资讯','zixun/hotnews':'1_精彩热点'
+                 }
+    start_urls = ['http://www.cndzys.com/%s/' % x for x in dict_news.keys()]
 
     def parse(self, response):
 
@@ -25,6 +38,14 @@ class NewsSpider(BaseTimeCheckSpider):
             child_request = scrapy.Request(url=n_url, callback=self.parse_info)
             m_item = YangshengwangItem()
             m_item['is_final_child'] = False
+            key_word = re.search('com/(.+)/', response.url).group(1)
+            total_str = self.dict_news[key_word]
+            m_item["classNum"] = total_str.split('_')[0]
+            if m_item["classNum"] == "2":
+                m_item['specificName'] = total_str.split('_')[1]
+                m_item["className"] = total_str.split('_')[2]
+            else:
+                m_item["className"] = total_str.split('_')[1]
             child_request.meta['item'] = m_item
             yield child_request
 
@@ -33,6 +54,14 @@ class NewsSpider(BaseTimeCheckSpider):
         final_request = scrapy.Request(url=final_child_url, callback=self.parse_info)
         m_item = YangshengwangItem()
         m_item['is_final_child'] = True
+        key_word = re.search('com/(.+)/', response.url).group(1)
+        total_str = self.dict_news[key_word]
+        m_item["classNum"] = total_str.split('_')[0]
+        if m_item["classNum"] == "2":
+            m_item['specificName'] = total_str.split('_')[1]
+            m_item["className"] = total_str.split('_')[2]
+        else:
+            m_item["className"] = total_str.split('_')[1]
         m_item['next_father_url'] = next_url
         final_request.meta['item'] = m_item
         yield final_request
@@ -54,10 +83,7 @@ class NewsSpider(BaseTimeCheckSpider):
         # next_requests = list()
         #if should_deep:
         # 表示有新的url
-        item["module"] = "保健常识"
-        item["className"] = response.xpath('//*[@class="location"]/a/text()')[-2].extract()
-        item["classNum"] = len(response.xpath('//*[@class="location"]/a')) - 1
-        item["specificName"] = response.xpath('//*[@class="location"]/a/text()')[-1].extract()
+        item["module"] = "健康资讯"
         item["title"] = response.xpath('/html/body/div/div/div/h1/text()').extract_first()
         item["source"] = '大众养生网'
         item["sourceUrl"] = response.url
