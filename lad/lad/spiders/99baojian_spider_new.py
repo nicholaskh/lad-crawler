@@ -1,5 +1,6 @@
 #coding=utf-8
 import scrapy
+import re
 
 from ..items import YangshengwangItem
 from ..spiders.beautifulSoup import processText
@@ -9,10 +10,8 @@ from basespider import BaseTimeCheckSpider
 class NewsSpider(BaseTimeCheckSpider):
 
     name = "99yijinew"
-    dict_news = {'zyys/jjys': '2_居家养生','zyys/ysyd': '2_养生有道',
-        'zyys/nvys': '2_女人养生','zyys/nvys': '2_男人养生','zyys/sjys': '2_四季养生','zyjb': '中医疾病','changshi': '中医常识'}
+    dict_news = {'zyys/jjys': '2_居家养生&中医养生','zyys/ysyd': '2_养生有道&中医养生','zyys/sjys': '2_四季养生&中医养生','zyjb': '1_中医疾病','changshi': '1_中医常识'}
     start_urls = ['http://zyk.99.com.cn/%s/' % x for x in dict_news.keys()]
-    text = ""
 
     def parse(self, response):
 
@@ -23,7 +22,7 @@ class NewsSpider(BaseTimeCheckSpider):
                 num = int(response.url.split('_')[2].split('.')[0])
                 next_url = response.url.split('_')[0] + '_' + response.url.split('_')[1] + '_' + str(num - 1) + ".html"
             else:
-                next_url = 'http://zyk.99.com.cn/zyys/jjys/' + response.xpath('//*[@class="list_page"]/span/a/@href').extract_first()
+                next_url = response.url + response.xpath('//*[@class="list_page"]/span/a/@href').extract_first()
 
         child_urls = response.xpath('//*[@class="one_list"]/div/h2/a/@href')
         for infoDiv in child_urls[:-1]:
@@ -31,6 +30,15 @@ class NewsSpider(BaseTimeCheckSpider):
             child_request = scrapy.Request(url=n_url, callback=self.parse_info)
             m_item = YangshengwangItem()
             m_item['is_final_child'] = False
+            key_word = re.search('.cn/(.+)/', response.url).group(1)
+            total_str = self.dict_news[key_word]
+            m_item["classNum"] = total_str.split('_')[0]
+            if m_item["classNum"] == "2":
+                m_item['specificName'] = total_str.split('_')[-1].split('&')[0]
+                m_item["className"] = total_str.split('&')[-1]
+            else:
+                m_item["className"] = total_str.split('_')[-1]
+            m_item['next_father_url'] = next_url
             child_request.meta['item'] = m_item
             yield child_request
 
@@ -39,6 +47,14 @@ class NewsSpider(BaseTimeCheckSpider):
         final_request = scrapy.Request(url=final_child_url, callback=self.parse_info)
         m_item = YangshengwangItem()
         m_item['is_final_child'] = True
+        key_word = re.search('.cn/(.+)/', response.url).group(1)
+        total_str = self.dict_news[key_word]
+        m_item["classNum"] = total_str.split('_')[0]
+        if m_item["classNum"] == "2":
+            m_item['specificName'] = total_str.split('_')[-1].split('&')[0]
+            m_item["className"] = total_str.split('&')[-1]
+        else:
+            m_item["className"] = total_str.split('_')[-1]
         m_item['next_father_url'] = next_url
         final_request.meta['item'] = m_item
         yield final_request
@@ -57,14 +73,8 @@ class NewsSpider(BaseTimeCheckSpider):
         if self.last_time is not None and self.last_time >= time_now:
             print(u'spider: %s 这篇文章已经存在' % self.url)
             return
-        # next_requests = list()
-        #if should_deep:
-        # 表示有新的url
 
-        item["module"] = "保健常识"
-        item["className"] = response.xpath('//*[@class="new_wz"]/span/a/text()')[-2].extract()
-        item["classNum"] = 2
-        item['specificName'] = response.xpath('//*[@class="new_wz"]/span/a/text()')[-1].extract()
+        item["module"] = "健康资讯"
         item["title"] = response.xpath('//*[@class="title_box"]/h1/text()').extract_first()
         item["source"] = "99健康网"
         item["sourceUrl"] = response.url
@@ -73,9 +83,7 @@ class NewsSpider(BaseTimeCheckSpider):
         else:
             item["imageUrls"] = response.xpath('//*[@align="center"]/a/img/@src').extract()
         item["time"] = response.xpath('//*[@class="title_txt"]/span/text()').extract_first().split(' ')[0]
-
         text_list = response.xpath('//*[@class="new_cont detail_con"]/*')
-
         item["text"] = processText(text_list)
 
         yield item
