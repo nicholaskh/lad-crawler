@@ -67,10 +67,10 @@ class NewsSpider(BaseTimeCheckSpider):
         item["source"] = "39健康网"
         item["sourceUrl"] = response.url
         item['imageUrls'] = response.xpath('//*[@id="contentText"]/p/img/@src').extract() #提取图片链接
-        if len(item['imageUrls']) == 0:
-            item['imageUrls'] = response.xpath('//*[@class="imgcon1"]/img/@src').extract()
-        if len(item['imageUrls']) == 0:
-            item['imageUrls'] = response.xpath('//*[@id="contentText"]/center/img/@src').extract_first()
+        # if len(item['imageUrls']) == 0:
+        #     item['imageUrls'] = response.xpath('//*[@class="imgcon1"]/img/@src').extract()
+        # if len(item['imageUrls']) == 0:
+        #     item['imageUrls'] = response.xpath('//*[@id="contentText"]/center/img/@src').extract_first()
         item["time"] = response.xpath('//*[@class="sweetening_title"]/span[2]/text()').extract_first()
 
         text_list = response.xpath('//*[@id="contentText"]/*')
@@ -78,6 +78,7 @@ class NewsSpider(BaseTimeCheckSpider):
             text_list = response.xpath('//*[@class="detail_con"]/*')
 
         item["text"] = processText(text_list)
+        item['imageUrls'] = processImgSep(text_list)
 
         yield item
 

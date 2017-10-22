@@ -14,10 +14,24 @@ def processText(circleList):
                 text = text + BeautifulSoup(i.extract(), "lxml").get_text() + '\n\r'
     return text
 
+def processImgSep(list_extract):
+    img_list = []
+    for i in list_extract:
+        soup = BeautifulSoup(i.extract(), "lxml")
+        if soup.img is not None:
+            if len(soup.img) > 1:
+                for i in soup.img:
+                    if soup.img.get('alt').encode('utf-8') != '点此购买1':
+                        img_list.append(i.get('src'))
+            else:
+                if soup.img.get('alt').encode('utf-8') != '点此购买1':
+                    img_list.append(soup.img.get('src'))
+    return img_list
+
 def processImg(list_extract):
     soup = BeautifulSoup(list_extract, "lxml")
+    img_list = []
     if soup.img is not None:
-        img_list = []
         if len(soup.img) > 1:
             for i in soup.img:
                 img_list.append(i.get('src'))
