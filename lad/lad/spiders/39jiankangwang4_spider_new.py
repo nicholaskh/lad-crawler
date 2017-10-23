@@ -9,7 +9,7 @@ from basespider import BaseTimeCheckSpider
 
 class newsSpider(BaseTimeCheckSpider):
     name = "39health4new"
-    dict_news = {'ys/jkdsy': '健康大视野','zt/bjrwb': '精彩热点','ys/jkjj': '健康纠结', 'ys/dzs':'养生指南'}
+    dict_news = {'ys/jkdsy': '健康大视野'}
     start_urls = ['http://care.39.net/%s/' % x for x in dict_news.keys()]
 
     def parse(self, response):
