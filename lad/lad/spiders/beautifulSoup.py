@@ -5,7 +5,7 @@ def processText(circleList):
     text = ''
     # for i in response.xpath('//*[@class="detail_con"]/p'):
     for i in circleList:
-        if i.extract().find('<img') > 0 and i.extract().encode('utf-8').find('alt="点此购买1"')  < 0:
+        if i.extract().find('<img') > 0 and i.extract().encode('utf-8').find('alt="点此购买1"') < 0:
             text = text + '$#$' + '\n\r'
         else:
             if i.extract().find('<script') >= 0 or i.extract().find('<style') >= 0:
