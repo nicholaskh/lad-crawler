@@ -17,7 +17,7 @@ class newsSpider(BaseTimeCheckSpider):
         should_deep = True
 
         times = response.xpath('//*[@width="200px"]/text()').extract()
-        urls = response.xpath('//*[@class="text-indent_2"]/div/a/@href').extract()
+        urls = response.xpath('/html/body/div[3]/div/div/div/div[3]/div/table/tbody/tr/td/div/a/@href').extract()
         valid_child_urls = list()
 
         for time, url in zip(times, urls):
@@ -31,7 +31,7 @@ class newsSpider(BaseTimeCheckSpider):
                 should_deep = False
                 break
 
-            valid_child_urls.append( "http://www.jsga.gov.cn" + url)
+            valid_child_urls.append("http://www.jsga.gov.cn" + url)
 
         next_requests = list()
         if should_deep:
@@ -43,6 +43,7 @@ class newsSpider(BaseTimeCheckSpider):
                 num = int(response.url.split('index')[1][1])
                 next_url_part = "index_" + str(num + 1) + ".html"
                 next_url = "http://www.jsga.gov.cn/jwzx/aqff/" + next_url_part
+            yield scrapy.Request(url=next_url, callback=self.parse)
             next_requests.append(scrapy.Request(url=next_url, callback=self.parse))
 
         for index, temp_url in enumerate(valid_child_urls):
@@ -63,7 +64,6 @@ class newsSpider(BaseTimeCheckSpider):
 
         item["city"] = "江苏"
         item["newsType"] = "警事要闻"
-        item["sourceUrl"] = response.url
         item["title"] = response.xpath('//*[@id="ArticleCnt"]/div[1]/p[3]/span/text()').extract_first()
         item["time"] = response.xpath('/html/body/div[3]/div/div/div/div[3]/div[1]/text()[1]').extract_first().strip()[5:15]
 
