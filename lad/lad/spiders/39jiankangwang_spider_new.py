@@ -10,7 +10,7 @@ class newsSpider(BaseTimeCheckSpider):
     name = "39health1new"
     dict_news = {'jbyw': '1疾病要闻', 'ysbj/ys': '1食品安全','mxrd': '1健康星闻',
         'qwqs': '1健康奇闻','interview': '1医药名人堂','yltx': '1医院动态','shwx': '1社会万象',
-        'kyfx': '1科研发现','hxw': '1曝光台','jdxw': '1焦点资讯'}
+        'kyfx': '1科研发现','jdxw': '1焦点资讯'}
     start_urls = ['http://news.39.net/%s/' % x for x in dict_news.keys()]
 
     def parse(self, response):
