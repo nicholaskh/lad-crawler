@@ -73,8 +73,8 @@ MONGO_PORT = 26134  # 端口号
 MONGO_DB = "news"  # 库名
 USERNAME = "fire"
 PASSWORD = "tiantian2"
-COLLECTION_SECURITY = 'security_backup'
-COLLECTION_HEALTH = 'health_backup'
+COLLECTION_SECURITY = 'security'
+COLLECTION_HEALTH = 'health'
 COLLECTION_SPIDER_INFO = 'spider_info'
 
 # 配置七牛云属性
