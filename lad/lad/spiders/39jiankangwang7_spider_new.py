@@ -7,10 +7,8 @@ from datetime import datetime
 from basespider import BaseTimeCheckSpider
 
 class newsSpider(BaseTimeCheckSpider):
-    name = "39health1new"
-    dict_news = {'jbyw': '1疾病要闻','mxrd': '1健康星闻',
-        'qwqs': '1健康奇闻','yltx': '1医院动态','shwx': '1社会万象',
-        'kyfx': '1科研发现','jdxw': '1焦点资讯'}
+    name = "39health7new"
+    dict_news = {'interview': '1医药名人堂','hxw': '1曝光台'}
     start_urls = ['http://news.39.net/%s/' % x for x in dict_news.keys()]
 
     def parse(self, response):
@@ -24,7 +22,7 @@ class newsSpider(BaseTimeCheckSpider):
 
         for time, url in zip(times, urls):
             try:
-                time_now = datetime.strptime(time.encode('utf-8'), '%Y年%m月%d日 %H:%M')
+                time_now = datetime.strptime(time.encode('utf-8'), '%Y/%m/%d %H:%M:%S')
                 self.update_last_time(time_now)
             except:
                 break
@@ -52,7 +50,6 @@ class newsSpider(BaseTimeCheckSpider):
             hit_time = times[index]
             m_item = YangshengwangItem()
             m_item['time'] = hit_time
-            # 相当于在request中加入了item这个元素
             req.meta['item'] = m_item
             next_requests.append(req)
 

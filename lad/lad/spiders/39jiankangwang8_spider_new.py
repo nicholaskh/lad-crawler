@@ -1,16 +1,15 @@
 #coding=utf-8
 import scrapy
+import re
 
 from ..items import YangshengwangItem
-from ..spiders.beautifulSoup import processText,processImg
+from ..spiders.beautifulSoup import processText, processImg
 from datetime import datetime
 from basespider import BaseTimeCheckSpider
 
 class newsSpider(BaseTimeCheckSpider):
-    name = "39health1new"
-    dict_news = {'jbyw': '1疾病要闻','mxrd': '1健康星闻',
-        'qwqs': '1健康奇闻','yltx': '1医院动态','shwx': '1社会万象',
-        'kyfx': '1科研发现','jdxw': '1焦点资讯'}
+    name = "39health8new"
+    dict_news = {'hxw': '曝光台'}
     start_urls = ['http://news.39.net/%s/' % x for x in dict_news.keys()]
 
     def parse(self, response):
@@ -18,13 +17,13 @@ class newsSpider(BaseTimeCheckSpider):
         should_deep = True
 
         times = response.xpath('//*[@class="time"]/text()').extract()
-        urls = response.xpath('//*[@class="listbox"]/ul/li/span/a/@href').extract()
+        urls = response.xpath('//*[@class="part_list"]/ul/li/span/a/@href').extract()
 
         valid_child_urls = list()
 
         for time, url in zip(times, urls):
             try:
-                time_now = datetime.strptime(time.encode('utf-8'), '%Y年%m月%d日 %H:%M')
+                time_now = datetime.strptime(time.encode('utf-8'), '%Y-%m-%d')
                 self.update_last_time(time_now)
             except:
                 break
@@ -52,6 +51,8 @@ class newsSpider(BaseTimeCheckSpider):
             hit_time = times[index]
             m_item = YangshengwangItem()
             m_item['time'] = hit_time
+            key_word = re.search('net/(.+)/', response.url).group(1)
+            m_item["className"] = '曝光台'
             # 相当于在request中加入了item这个元素
             req.meta['item'] = m_item
             next_requests.append(req)
@@ -63,14 +64,12 @@ class newsSpider(BaseTimeCheckSpider):
         item = response.meta['item']
 
         item["module"] = "健康资讯"
-        key_name = response.url.split('/')[3]
-        len_str = len(self.dict_news[key_name])
-        item["className"] = self.dict_news[key_name][1:len_str]
         item["classNum"] = 1
         item["title"] = response.xpath('//*[@id="art_box"]/div[1]/div[1]/h1/text()').extract_first()
         item["source"] = "39健康网"
         item["sourceUrl"] = response.url
-        item['imageUrls'] = processImg(response.xpath('//*[@id="contentText"]').extract_first())
+        img_list = response.xpath('//*[@id="contentText"]').extract_first()
+        item['imageUrls'] = processImg(img_list)
         item["time"] = response.xpath('//*[@id="art_box"]/div[1]/div[1]/div[1]/div[2]/em[1]/text()').extract_first()
 
         text_list = response.xpath('//*[@id="contentText"]/*')

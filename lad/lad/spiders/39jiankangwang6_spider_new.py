@@ -7,10 +7,8 @@ from datetime import datetime
 from basespider import BaseTimeCheckSpider
 
 class newsSpider(BaseTimeCheckSpider):
-    name = "39health1new"
-    dict_news = {'jbyw': '1疾病要闻','mxrd': '1健康星闻',
-        'qwqs': '1健康奇闻','yltx': '1医院动态','shwx': '1社会万象',
-        'kyfx': '1科研发现','jdxw': '1焦点资讯'}
+    name = "39health6new"
+    dict_news = {'ysbj/ys': '1食品安全'}
     start_urls = ['http://news.39.net/%s/' % x for x in dict_news.keys()]
 
     def parse(self, response):
@@ -52,7 +50,6 @@ class newsSpider(BaseTimeCheckSpider):
             hit_time = times[index]
             m_item = YangshengwangItem()
             m_item['time'] = hit_time
-            # 相当于在request中加入了item这个元素
             req.meta['item'] = m_item
             next_requests.append(req)
 
@@ -63,9 +60,7 @@ class newsSpider(BaseTimeCheckSpider):
         item = response.meta['item']
 
         item["module"] = "健康资讯"
-        key_name = response.url.split('/')[3]
-        len_str = len(self.dict_news[key_name])
-        item["className"] = self.dict_news[key_name][1:len_str]
+        item["className"] = '食品安全'
         item["classNum"] = 1
         item["title"] = response.xpath('//*[@id="art_box"]/div[1]/div[1]/h1/text()').extract_first()
         item["source"] = "39健康网"
@@ -76,7 +71,6 @@ class newsSpider(BaseTimeCheckSpider):
         text_list = response.xpath('//*[@id="contentText"]/*')
         if len(text_list) == 0:
             text_list = response.xpath('//*[@class="article"]/*')
-
         item["text"] = processText(text_list)
 
         yield item

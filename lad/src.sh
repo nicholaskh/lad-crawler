@@ -9,6 +9,9 @@ scrapy crawl 39health2new &
 scrapy crawl 39health3new &
 scrapy crawl 39health4new &
 scrapy crawl 39health5new &
+scrapy crwal 39health6new &
+scrapy crwal 39health7new &
+scrapy crwal 39health8new &
 scrapy crawl feihua1new &
 scrapy crawl feihua2new &
 scrapy crawl 99yijinew &
@@ -26,4 +29,4 @@ scrapy crawl sichuannew &
 scrapy crawl guangxinew &
 scrapy crawl jiangsunew &
 scrapy crawl nanjingnew &
-scrapy crawl jinannew 
+scrapy crawl jinannew
