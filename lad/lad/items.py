@@ -20,6 +20,7 @@ class LadItem(scrapy.Item):
     is_final_child = scrapy.Field()
     next_father_url = scrapy.Field()
     sourceUrl = scrapy.Field()
+    num = scrapy.Field() # 随机数
 
 class YangshengItem(scrapy.Item):
     collection = settings['COLLECTION_HEALTH']
@@ -28,12 +29,14 @@ class YangshengItem(scrapy.Item):
     yangshengType = scrapy.Field()
     time = scrapy.Field()
     text = scrapy.Field()
+    num = scrapy.Field() # 随机数
 
 class VideoItem(scrapy.Item):
     collection = settings['COLLECTION_HEALTH']
     module = scrapy.Field() # 模块
     videoName = scrapy.Field() # 视频名称
     videoLink = scrapy.Field() # 视频链接
+    num = scrapy.Field() # 随机数
 
 class YangshengwangItem(scrapy.Item):
     collection = settings['COLLECTION_HEALTH']
@@ -50,3 +53,4 @@ class YangshengwangItem(scrapy.Item):
     text = scrapy.Field() # 文本
     is_final_child = scrapy.Field()
     next_father_url = scrapy.Field()
+    num = scrapy.Field() # 随机数

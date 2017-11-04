@@ -6,10 +6,10 @@ import urllib
 from scrapy.conf import settings
 from qiniu import Auth, put_file
 from pipeline.basepipeline import BasePipeline
-
+import random
 
 class LadPipeline(BasePipeline):
-    
+
     def __init__(self):
         self.client = pymongo.MongoClient(host=settings['MONGO_HOST'], port=settings['MONGO_PORT'])
         self.db = self.client[settings['MONGO_DB']]
@@ -47,6 +47,7 @@ class LadPipeline(BasePipeline):
         if 'imageUrls' in item:
             self.processImageUrls(item, spider)
 
+        item['num'] = random.randint(1, 100000)
         hit_collection.insert(dict(item))
         return item
 
