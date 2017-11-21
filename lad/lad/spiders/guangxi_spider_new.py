@@ -63,7 +63,7 @@ class NewsSpider(BaseTimeCheckSpider):
         #if should_deep:
         # 表示有新的url
         item["sourceUrl"] =response.url
-        item["city"] = "广西"
+        item["city"] = "广西公安网"
         item["newsType"] = "警事要闻"
         item["title"] = response.xpath('/html/body/div[3]/div[2]/div[2]/div[1]/text()').extract_first()
         item["time"] = response.xpath('//*[@class="dateDetail heightLine"]/text()').extract_first().strip()[0:10]

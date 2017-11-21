@@ -69,7 +69,7 @@ class NewsSpider(BaseTimeCheckSpider):
             print(u'spider: %s 这篇文章已经存在' % self.url)
             return
 
-        item["city"] = '内蒙古'
+        item["city"] = '内蒙古公安网'
         item["newsType"] = '警事要闻'
         item["title"] = response.xpath('/html/body/div/div/div[2]/div[3]/div/div/div[2]/text()').extract_first()
         item["time"] = '20' + response.xpath('/html/body/div/div/div[2]/div[3]/div/div/div[3]/div[2]/text()').extract_first().split('|')[1].strip().split('20')[1].split(' ')[0]

@@ -61,7 +61,7 @@ class newsSpider(BaseTimeCheckSpider):
     def parse_info(self, response):
         item = response.meta['item']
 
-        item["city"] = "南京"
+        item["city"] = "南京公安网"
         item["newsType"] = "警事要闻"
         item["sourceUrl"] = response.url
         item["title"] = response.xpath('/html/body/div/table[1]/tr/td[3]/table[5]/tr/td/table/tr/td/table/tr[2]/td/center/table[2]/tr[1]/td/div/strong/text()').extract_first().strip()

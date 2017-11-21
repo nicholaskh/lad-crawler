@@ -63,7 +63,7 @@ class NewsSpider(BaseTimeCheckSpider):
         # next_requests = list()
         #if should_deep:
         # 表示有新的url
-        item["city"] = "深圳"
+        item["city"] = "深圳公安网"
         typeString = response.url.split('/')[5]
         if typeString == 'FH':
             item["newsType"] = '防火'

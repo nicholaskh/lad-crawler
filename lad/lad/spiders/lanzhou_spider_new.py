@@ -58,7 +58,7 @@ class NewsSpider(BaseTimeCheckSpider):
         if self.last_time is not None and self.last_time >= time_now:
             print(u'spider: %s 这篇文章已经存在' % self.url)
             return
-        item["city"] = "兰州"
+        item["city"] = "兰州公安网"
         item["newsType"] = '警事要闻'
         item["title"] = response.xpath('//*[@id="mid"]/div[2]/h1/font/text()').extract_first()
         item["time"] = response.xpath('//*[@id="mid"]/div[2]/div[1]/text()[1]').extract_first().strip()[5:15]

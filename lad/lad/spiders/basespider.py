@@ -168,4 +168,3 @@ class BaseTimeCheckSpider(BaseMongoSpider):
                 pass
 
         return False
-

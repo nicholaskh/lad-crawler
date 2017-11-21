@@ -28,6 +28,17 @@ def processImgSep(list_extract):
                     img_list.append(soup.img.get('src'))
     return img_list
 
+def processImgSep1(list_extract):
+    soup = BeautifulSoup(list_extract, "lxml")
+    img_list = []
+    if soup.img is not None:
+        if len(soup.img) > 1:
+            for i in soup.img:
+                img_list.append('http://www.gzjd.gov.cn' + i.get('src'))
+        else:
+            img_list.append('http://www.gzjd.gov.cn' + soup.img.get('src'))
+    return img_list
+
 def processImg(list_extract):
     soup = BeautifulSoup(list_extract, "lxml")
     img_list = []
