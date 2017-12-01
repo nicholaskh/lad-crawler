@@ -20,6 +20,7 @@ class LadItem(scrapy.Item):
     is_final_child = scrapy.Field()
     next_father_url = scrapy.Field()
     sourceUrl = scrapy.Field()
+    imageUrls = scrapy.Field() # 图片的链接
     num = scrapy.Field() # 随机数
 
 class YangshengItem(scrapy.Item):

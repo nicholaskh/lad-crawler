@@ -28,6 +28,7 @@ def processImgSep(list_extract):
                     img_list.append(soup.img.get('src'))
     return img_list
 
+<<<<<<< HEAD
 def processImgSep2(list_extract):
     img_list = []
     for i in list_extract:
@@ -40,6 +41,17 @@ def processImgSep2(list_extract):
             else:
                 if soup.img.get('alt').encode('utf-8') != '点此购买1':
                     img_list.append('http://www.cpoha.com.cn'+soup.img.get('src'))
+=======
+def processImgSep1(list_extract):
+    soup = BeautifulSoup(list_extract, "lxml")
+    img_list = []
+    if soup.img is not None:
+        if len(soup.img) > 1:
+            for i in soup.img:
+                img_list.append('http://www.gzjd.gov.cn' + i.get('src'))
+        else:
+            img_list.append('http://www.gzjd.gov.cn' + soup.img.get('src'))
+>>>>>>> 42fe139506798ee392ad28881304b65d1c821943
     return img_list
 
 def processImg(list_extract):

@@ -66,7 +66,7 @@ class newsSpider(BaseTimeCheckSpider):
         item["title"] = response.xpath('/html/body/div[5]/div[2]/div[2]/h1/text()').extract_first()
         c = response.xpath('/html/body/div[5]/div[2]/div[2]/div[1]/span[1]/text()').extract_first()
         c = re.sub("\D", "", c)
-        item["city"] = "昆明"
+        item["city"] = "昆明公安网"
         item["sourceUrl"] = response.url
         item["time"] = c[0:4] + '-' + c[4:6] + '-' + c[6:8]
 
