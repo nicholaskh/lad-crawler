@@ -43,31 +43,32 @@ class newsSpider(BaseTimeCheckSpider):
             # 翻页
             if len(response.xpath('//*[@class="pagelist"]/li')[-3].xpath('a/text()')) > 0 :
                 if response.xpath('//*[@class="pagelist"]/li')[-3].xpath('a/text()').extract_first().encode('utf-8') == '下一页':
+                    print("**********************")
                     next_part_url = response.xpath('//*[@class="pagelist"]/li')[-3].xpath('a/@href').extract_first()
                     if 'html' not in response.url:
                         next_url = response.url + next_part_url
                     else:
                         next_url = 'http://www.cpoha.com.cn/' + response.url.split('/')[3] + '/' + response.url.split('/')[4] + '/' + next_part_url
-                    yield scrapy.Request(url=next_url, callback=self.parse)
+                    print('next_url')
+                    print(next_url)
+            else:
+                next_url = None
+            yield scrapy.Request(url=next_url, callback=self.parse)
 
         for index, temp_url in enumerate(valid_child_urls):
             req = scrapy.Request(url=temp_url, callback=self.parse_info)
 
             hit_time = times[index]
             m_item = YangshengwangItem()
-            m_item['time'] = hit_time[:10]
             m_item["classNum"] = 2
             if 'html' in response.url:
                 key_word = response.url.split('/')[3] + '/' + response.url.split('/')[4]
-                print('########')
-                print(key_word)
             else:
                 key_word = re.search('http://www.cpoha.com.cn/(.+)/', response.url).group(1)
-                print('########')
-                print(key_word)
             total_str = self.dict_commens[key_word]
             m_item["className"] = total_str.split('&')[1]
             m_item["specificName"] = total_str.split('&')[0]
+            m_item["next_father_url"] = response.url
             # 相当于在request中加入了item这个元素
             req.meta['item'] = m_item
             next_requests.append(req)
@@ -81,6 +82,7 @@ class newsSpider(BaseTimeCheckSpider):
         item["module"] = "健康资讯"
         item["title"] = response.xpath('//*[@class="left w640"]/h1/text()').extract_first()
         item["source"] = "中国养生网"
+        item["time"] = response.xpath('//*[@id="pub_date"]/text()').extract_first()
         item["sourceUrl"] = response.url
 
         text_list = response.xpath('//*[@id="content"]/p/text()')
