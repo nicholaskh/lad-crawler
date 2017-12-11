@@ -8,12 +8,17 @@ from datetime import datetime
 from basespider import BaseTimeCheckSpider
 
 class newsSpider(BaseTimeCheckSpider):
-    name = "zhongguo1"
+    name = "zhongguo2"
     text = ''
     dict_commens = {
-        'yangsheng/yangshengwenxian':'养生文献&养生文化'
+        'shuhuaxiaochangshi':'书画小常识'
+        # 'jianshangchangshi':'鉴赏常识',
+        # 'shuhuayuyangsheng':'书画与养生',
+        # 'huodongdongtai':'活动动态',
+        # 'shuhuamingrenzhishi':'书画名人轶事',
+        # 'dashizuopin':'作品欣赏'
         }
-    start_urls = ['http://www.cpoha.com.cn/%s/' % x for x in dict_commens.keys()]
+    start_urls = ['http://www.cpoha.com.cn/shuhua/%s/' % x for x in dict_commens.keys()]
 
     def parse(self, response):
         should_deep = True
@@ -24,8 +29,8 @@ class newsSpider(BaseTimeCheckSpider):
 
         for time, url in zip(times, urls):
             try:
-                final_time = time.strip()[:10]
-                time_now = datetime.strptime(final_time, '%Y-%m-%d')
+                final_time = time.strip()[:19]
+                time_now = datetime.strptime(final_time, '%Y-%m-%d %H:%M:%S')
                 self.update_last_time(time_now)
             except:
                 print("Something Wrong")
@@ -43,6 +48,7 @@ class newsSpider(BaseTimeCheckSpider):
             # 翻页
             if len(response.xpath('//*[@class="pagelist"]/li')[-3].xpath('a/text()')) > 0 :
                 if response.xpath('//*[@class="pagelist"]/li')[-3].xpath('a/text()').extract_first().encode('utf-8') == '下一页':
+                    print("**********************")
                     next_part_url = response.xpath('//*[@class="pagelist"]/li')[-3].xpath('a/@href').extract_first()
                     if 'html' not in response.url:
                         next_url = response.url + next_part_url
@@ -59,14 +65,10 @@ class newsSpider(BaseTimeCheckSpider):
 
             hit_time = times[index]
             m_item = YangshengwangItem()
-            m_item["classNum"] = 2
-            if 'html' in response.url:
-                key_word = response.url.split('/')[3] + '/' + response.url.split('/')[4]
-            else:
-                key_word = re.search('http://www.cpoha.com.cn/(.+)/', response.url).group(1)
+            m_item["classNum"] = 1
+            key_word = re.search('shuhua/(.+)/', response.url).group(1)
             total_str = self.dict_commens[key_word]
-            m_item["className"] = total_str.split('&')[1]
-            m_item["specificName"] = total_str.split('&')[0]
+            m_item["className"] = total_str
             m_item["next_father_url"] = response.url
             # 相当于在request中加入了item这个元素
             req.meta['item'] = m_item
@@ -87,8 +89,8 @@ class newsSpider(BaseTimeCheckSpider):
         text_list = response.xpath('//*[@id="content"]/p/text()')
         for p_slt in text_list:
             self.text = self.text + p_slt.extract()
-        item["text"] = self.text
-        if len(item["text"]) < 20:
+        item["text"] = self.text.strip()
+        if len(item["text"]) < 25:
             text_list = response.xpath('//*[@id="content"]/*')
             item["text"] = processText(text_list)
         self.text = ""

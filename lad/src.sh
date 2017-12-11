@@ -18,6 +18,10 @@ scrapy crawl 99yijinew &
 scrapy crawl 99yiji2new &
 scrapy crawl dazhongyangshengwangnew &
 scrapy crawl dazhongyangshengwang2 &
+scrapy crawl yanhuang1 &
+scrapy crawl 99yangshengwangnew &
+scrapy crawl 99yangshengwangnew2 &
+scrapy crawl yangshengpunew &
 scrapy crawl shenzhennew &
 scrapy crawl beijingnew &
 scrapy crawl lasanew &
