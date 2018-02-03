@@ -32,7 +32,7 @@ class newsSpider(scrapy.Spider):
             item = VideoItem()
             item["module"] = "营养课堂"
             item['className'] = "养生堂"
-            item["title"] = title
+            item["title"] = title.split(u'》')[1]
             item["url"] = "http://player.youku.com/embed/" + vid
             item["source"] = "优酷视频"
             item["sourceUrl"] = "http://v.youku.com/v_show/id_" + vid + ".html"
