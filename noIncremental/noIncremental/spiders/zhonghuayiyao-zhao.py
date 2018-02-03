@@ -29,7 +29,7 @@ class newsSpider(scrapy.Spider):
     def parse_info(self, response):
         sourceUrl = response.meta['sourceUrl']
         item = VideoItem()
-        item["module"] = "养生论坛"
+        item["module"] = "养生讲坛"
         item["className"] = "中华医药"
         item["title"] = response.meta['title']
         item["source"] = "中国网络电视台CNTV"
