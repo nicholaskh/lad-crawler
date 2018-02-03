@@ -25,7 +25,7 @@ class newsSpider(scrapy.Spider):
                 urls.append(url)
             else:
                 title = each.xpath('text()').extract_first()
-                if title is not None and title[0] == "第":
+                if title is not None and title[0] == u"第":
                     titles.append(title)
                     urls.append(url)
 
