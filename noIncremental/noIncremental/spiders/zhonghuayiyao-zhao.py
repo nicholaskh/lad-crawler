@@ -12,15 +12,18 @@ class newsSpider(scrapy.Spider):
 
     def parse(self, response):
         urls = response.xpath('//li/p/a[@style]/@href').extract()
-
-        for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse_pid)
+        titles = response.xpath('//li/p/a[@style]/@title').extract()
+        for url, title in zip(urls, titles):
+            req = scrapy.Request(url=url, callback=self.parse_pid)
+            req.meta['title'] = title
+            yield req
 
     def parse_pid(self, response):
         pid = re.findall('videoCenterId","(.+)"', response.text)[0]
         info_url = "http://vdn.apps.cntv.cn/api/getHttpVideoInfo.do?pid=" + pid
         req = scrapy.Request(url=info_url, callback=self.parse_info)
         req.meta['sourceUrl'] = response.url
+        req.meta['title'] = response.meta['title']
         yield req
 
     def parse_info(self, response):
@@ -28,7 +31,7 @@ class newsSpider(scrapy.Spider):
         item = VideoItem()
         item["module"] = "养生论坛"
         item["className"] = "中华医药"
-        item["title"] = re.findall('title":"(.*?)"', response.text)[0].split(" ")[-1]
+        item["title"] = response.meta['title']
         item["source"] = "中国网络电视台CNTV"
         item["sourceUrl"] = sourceUrl
         urls = re.findall('jpg","url":"(.*?)"', response.text)
