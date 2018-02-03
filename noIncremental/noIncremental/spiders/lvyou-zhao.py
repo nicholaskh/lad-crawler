@@ -51,7 +51,7 @@ class newsSpider(scrapy.Spider):
         item["className"] = "边疆行"
         title = response.meta['title']
         item["title"] = title.split(' ')[-1]
-        item["edition"] = re.findall('第(.*?)集', title)[0]
+        item["edition"] = re.findall(u'第(.*?)集', title)[0]
         urls = re.findall('jpg","url":"(.*?)"', response.text)
         # 取最后的清晰度
         last_num = 1000
