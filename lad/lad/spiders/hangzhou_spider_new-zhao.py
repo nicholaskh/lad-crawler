@@ -45,6 +45,10 @@ class newsSpider(BaseTimeCheckSpider):
         next_requests = list()
         if should_deep:
             page_num = int(response.url.split('&')[-1].split('=')[-1])
+            real_page = int(response.xpath('//input[@name="dd_currentPage"]/@value').extract_first())
+            #避免进入多余的页
+            if real_page != page_num:
+                return
             page_num = page_num + 1
             next_url = response.url.split('&')[0] + "&page=" + str(page_num)
             next_requests.append(scrapy.Request(url=next_url, callback=self.parse))
@@ -82,7 +86,7 @@ class newsSpider(BaseTimeCheckSpider):
                 img = 'http://www.hzpolice.gov.cn' + img
             final_img_list.append(img)
         item['imageUrls'] = final_img_list
-        if text == "" and len(img_list) == 0:
+        if text.strip() == "" and len(img_list) == 0:
             return
 
         yield item
