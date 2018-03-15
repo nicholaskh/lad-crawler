@@ -34,4 +34,6 @@ scrapy crawl sichuannew &
 scrapy crawl guangxinew &
 scrapy crawl jiangsunew &
 scrapy crawl nanjingnew &
-scrapy crawl jinannew
+scrapy crawl jinannew &
+scrapy crawl hangzhou_new
+
