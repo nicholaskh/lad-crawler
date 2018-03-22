@@ -7,7 +7,7 @@ from ..spiders.beautifulSoup import processText, processImgSep
 from datetime import datetime
 
 class newsSpider(scrapy.Spider):
-    name = "hainan"
+    name = "hainan-zhao"
     start_urls = ['http://ga.hainan.gov.cn/28/']
 
     def parse(self, response):
