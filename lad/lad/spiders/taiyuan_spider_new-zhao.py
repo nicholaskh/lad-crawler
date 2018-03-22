@@ -74,13 +74,7 @@ class newsSpider(BaseTimeCheckSpider):
         text = processText(text_list)
         item["text"] = text
         img_list = processImgSep(text_list)
-        final_img_list = []
-        for img in img_list:
-            if 'http' not in img:
-                img = "http://www.tygabmfw.gov.cn" + img
-            final_img_list.append(img)
-        item['imageUrls'] = final_img_list
-        if text.strip() == "" and len(img_list) == 0:
+        if text.strip() == "" or len(img_list) != 0:
             return
 
         yield item

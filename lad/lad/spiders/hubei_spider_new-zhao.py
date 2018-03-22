@@ -21,7 +21,7 @@ class newsSpider(BaseTimeCheckSpider):
 
         for time, url in zip(times, urls):
             try:
-                time_now = datetime.strptime(time.split('：')[1].split('　　')[0], '%Y-%m-%d')
+                time_now = datetime.strptime(time.split(u'：')[1].split(u'　　')[0], '%Y-%m-%d')
                 self.update_last_time(time_now)
             except:
                 print("Something Wrong")
@@ -47,7 +47,7 @@ class newsSpider(BaseTimeCheckSpider):
 
             hit_time = times[index]
             m_item = LadItem()
-            m_item['time'] = hit_time.split('：')[1].split('　　')[0]
+            m_item['time'] = hit_time.split(u'：')[1].split(u'　　')[0]
             m_item['newsType'] = "警事要闻"
             # 相当于在request中加入了item这个元素
             req.meta['item'] = m_item
