@@ -5,13 +5,15 @@ def processText(circleList):
     text = ''
     # for i in response.xpath('//*[@class="detail_con"]/p'):
     for i in circleList:
-        if i.extract().find('<img') > 0 and i.extract().encode('utf-8').find('alt="点此购买1"') < 0:
+        if i.extract().find('<img') > 0 and i.extract().find(u'alt="点此购买1"') < 0:
             text = text + '$#$' + '\n\r'
         else:
             if i.extract().find('<script') >= 0 or i.extract().find('<style') >= 0 or i.extract().find('class="weizhi"') >= 0:
                 continue
             else:
-                text = text + BeautifulSoup(i.extract(), "lxml").get_text() + '\n\r'
+                text = text + BeautifulSoup(i.extract(), "lxml").get_text()
+		if len(text) > 10:
+			text = text + '\n\r'
     return text
 
 def processImgSep(list_extract):
@@ -21,10 +23,10 @@ def processImgSep(list_extract):
         if soup.img is not None:
             if len(soup.img) > 1:
                 for i in soup.img:
-                    if soup.img.get('alt').encode('utf-8') != '点此购买1':
+                    if soup.img.get('alt') != u'点此购买1':
                         img_list.append(i.get('src'))
             else:
-                if soup.img.get('alt').encode('utf-8') != '点此购买1':
+                if soup.img.get('alt') != u'点此购买1':
                     img_list.append(soup.img.get('src'))
     return img_list
 

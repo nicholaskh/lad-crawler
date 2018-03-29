@@ -32,8 +32,28 @@ scrapy crawl kunmingnew &
 scrapy crawl neimenggunew &
 scrapy crawl sichuannew &
 scrapy crawl guangxinew &
-scrapy crawl jiangsunew &
 scrapy crawl nanjingnew &
 scrapy crawl jinannew &
-scrapy crawl hangzhou_new
+scrapy crawl hangzhou_new &
+scrapy crawl beijinggongan1 &
+scrapy crawl beijinggongan2 &
+scrapy crawl gonganbu1 &
+scrapy crawl gonganbu2 &
+scrapy crawl shanghaigongan &
+scrapy crawl guangzhougongan &
+scrapy crawl jilin_new &
+scrapy crawl jiangsugongan &
+scrapy crawl jiangsugongan2 &
+scrapy crawl changchun_new &
+scrapy crawl hlj_new &
+scrapy crawl sx_new &
+scrapy crawl guangdonggongan1 &
+scrapy crawl guangdonggongan2 &
+scrapy crawl hebeigongan &
+scrapy crawl taiyuan_new &
+scrapy crawl hubei_new &
+scrapy crawl haikou_new &
+scrapy crawl zhejianggongan1 &
+scrapy crawl jinangongan &
+scrapy crawl liaoninggongan
 
