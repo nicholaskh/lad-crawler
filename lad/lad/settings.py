@@ -77,6 +77,8 @@ USERNAME = "fire"
 PASSWORD = "tiantian2"
 COLLECTION_SECURITY = 'security'
 COLLECTION_HEALTH = 'health'
+COLLECTION_YANGLAO = 'yanglao'
+COLLECTION_DAILYNEWS = 'dailynews'
 COLLECTION_SPIDER_INFO = 'spider_info'
 
 # 配置七牛云属性

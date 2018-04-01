@@ -22,12 +22,18 @@ class LadPipeline(BasePipeline):
 
         coll_name_health = settings['COLLECTION_HEALTH']
         coll_name_security = settings['COLLECTION_SECURITY']
+        coll_name_yanglao = settings['COLLECTION_YANGLAO']
+        coll_name_dailynews = settings['COLLECTION_DAILYNEWS']
         coll_health = self.db[coll_name_health]
         coll_security = self.db[coll_name_security]
+        coll_yanglao = self.db[coll_name_yanglao]
+        coll_dailynews = self.db[coll_name_dailynews]
 
         self.name_to_coll = dict()
         self.name_to_coll[coll_name_security] = coll_security
         self.name_to_coll[coll_name_health] = coll_health
+        self.name_to_coll[coll_name_yanglao] = coll_yanglao
+        self.name_to_coll[coll_name_dailynews] = coll_dailynews
 
         # 配置七牛云属性
         self.qiniu_domain = settings['QINIU_DOMAIN']
