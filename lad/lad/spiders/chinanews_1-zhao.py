@@ -10,14 +10,14 @@ from .basespider import BaseTimeCheckSpider
 class newsSpider(BaseTimeCheckSpider):
     name = "chinanews_1"
     dict_commens = {
-        # 'http://channel.chinanews.com/cns/cl/ty-klsk.shtml?pager=0': '体育',
-        # 'http://channel.chinanews.com/cns/cl/ty-bdjj.shtml?pager=0': '体育',
-        # 'http://channel.chinanews.com/cns/cl/ty-gnzq.shtml?pager=0': '体育',
-        # 'http://channel.chinanews.com/cns/cl/fz-jdrw.shtml?pager=0': '体育',
-        'http://channel.chinanews.com/u/rdzz.shtml?pager=0': '体育',
-        'http://channel.chinanews.com/cns/cl/gj-zxsjg.shtml?pager=0': '体育',
-        'http://channel.chinanews.com/cns/cl/gn-gcdt.shtml?pager=0': '体育',
-        'http://finance.chinanews.com/cj/gd.shtml?pager=0': '体育'
+        'http://channel.chinanews.com/cns/cl/ty-klsk.shtml?pager=0': '体育',
+        'http://channel.chinanews.com/cns/cl/ty-bdjj.shtml?pager=0': '体育',
+        'http://channel.chinanews.com/cns/cl/ty-gnzq.shtml?pager=0': '体育',
+        'http://channel.chinanews.com/cns/cl/fz-jdrw.shtml?pager=0': '社会',
+        'http://channel.chinanews.com/u/rdzz.shtml?pager=0': '社会',
+        'http://channel.chinanews.com/cns/cl/gj-zxsjg.shtml?pager=0': '国际',
+        'http://channel.chinanews.com/cns/cl/gn-gcdt.shtml?pager=0': '政治',
+        'http://finance.chinanews.com/cj/gd.shtml?pager=0': '经济'
     }
     start_urls = ['%s' % x for x in dict_commens.keys()]
 
