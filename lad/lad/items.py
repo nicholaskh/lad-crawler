@@ -46,6 +46,7 @@ class YanglaoItem(scrapy.Item):
     title = scrapy.Field() # 标题
     time = scrapy.Field() # 时间
     text = scrapy.Field() # 文本
+    source = scrapy.Field() #来源
     sourceUrl = scrapy.Field() # 来源网址
     imageUrls = scrapy.Field() # 图片的链接
     num = scrapy.Field() # 随机数
@@ -56,6 +57,7 @@ class DailyNewsItem(scrapy.Item):
     title = scrapy.Field() # 标题
     time = scrapy.Field() # 时间
     text = scrapy.Field() # 文本
+    source = scrapy.Field()  # 来源
     sourceUrl = scrapy.Field() # 来源网址
     imageUrls = scrapy.Field() # 图片的链接
     num = scrapy.Field() # 随机数
