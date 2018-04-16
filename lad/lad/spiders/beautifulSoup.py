@@ -5,13 +5,13 @@ def processText(circleList):
     text = ''
     # for i in response.xpath('//*[@class="detail_con"]/p'):
     for i in circleList:
-        if i.extract().find('<img') > 0 and i.extract().find(u'alt="点此购买1"') < 0:
+        if i.extract().find('<img') >= 0 and i.extract().find(u'alt="点此购买1"') < 0:
             text = text + '$#$' + '\n\r'
         else:
             if i.extract().find('<script') >= 0 or i.extract().find('<style') >= 0 or i.extract().find('class="weizhi"') >= 0:
                 continue
             else:
-                text = text + BeautifulSoup(i.extract(), "lxml").get_text()
+                text = text + BeautifulSoup(i.extract(), "lxml").get_text(strip=True)
 		if len(text) > 10:
 			text = text + '\n\r'
     return text

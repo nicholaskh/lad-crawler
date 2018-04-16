@@ -70,7 +70,7 @@ class newsSpider(BaseTimeCheckSpider):
 
     def parse_info(self, response):
         item = response.meta['item']
-
+        item["source"] = "中国新闻网"
         title = response.xpath('//*[@id="cont_1_1_2"]/h1/text()').extract_first()
         if title is None:
             return
