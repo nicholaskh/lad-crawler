@@ -21,7 +21,7 @@ class newsSpider(BaseTimeCheckSpider):
     def start_requests(self):
         begin = datetime.now()
         self.update_last_time(begin)
-        end = datetime(2015, 1, 1)
+        end = datetime(2018, 1, 1)
         for i in range((begin-end).days+1):
             day = begin - timedelta(days=i)
             format_day = day.strftime('%Y/%m%d')
