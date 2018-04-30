@@ -4,13 +4,11 @@ import scrapy
 import pymongo
 
 from scrapy.conf import settings
-from ..util.log import LogUtil
 
 
 class QQCleanSpider(scrapy.Spider):
     name = "qqmusic_clean"
     def __init__(self):
-        self.log = LogUtil.newLogger(self.name)
         # 初始化与MONGODB的连接
         self.__connect = pymongo.MongoClient(host=settings['MONGO_HOST'], port=settings['MONGO_PORT'])
         self.__db = self.__connect[settings['MONGO_DB']]
@@ -34,22 +32,12 @@ class QQCleanSpider(scrapy.Spider):
 
         return self.__db[name]
 
-    def log_warning(self, message):
-        self.log.warning(message)
-
-    def log_error(self, message):
-        self.log.error(message)
-
-    def log_info(self, message):
-        self.log.info(message)
-
-
     def start_requests(self):
         query = dict()
         query['source'] = "qq音乐"
         res = self.__coll_info.find(query)
         if res is None or res.count() == 0:
-            self.log_info(u"找不到数据")
+            print u"找不到数据"
             return
         for each in res:
             query = dict()
