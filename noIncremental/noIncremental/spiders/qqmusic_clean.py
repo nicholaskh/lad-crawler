@@ -48,7 +48,7 @@ class QQCleanSpider(scrapy.Spider):
             broadcast_url = each.get('broadcast_url')
             broadcast_url = broadcast_url.replace("ws", "dl")
             value['broadcast_url'] = broadcast_url
-            req = scrapy.Request(url=broadcast_url, callback=self.parse)
+            req = scrapy.Request(url=broadcast_url, callback=self.parse, errback=self.errback_httpbin, dont_filter=True)
             req.meta['query'] = query
             req.meta['update'] = update
             yield req
@@ -58,6 +58,8 @@ class QQCleanSpider(scrapy.Spider):
         update = response.meta['update']
         if response.status == 200:
             self.__coll_info.update_one(query, update, upsert=True)
-        else:
-            self.__coll_info.delete_one(query)
 
+    def errback_httpbin(self, failure):
+        query = failure.value.response.meta['query']
+        self.logger.error(repr(failure))
+        self.__coll_info.delete_one(query)
