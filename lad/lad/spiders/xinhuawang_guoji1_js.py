@@ -49,7 +49,7 @@ class newsSpider(BaseTimeCheckSpider):
 
             m_item = DailyNewsItem()
             m_item['time'] = time
-            m_item['className'] = "政治"
+            m_item['className'] = "国际"
             # 相当于在request中加入了item这个元素
             req.meta['item'] = m_item
             yield req
