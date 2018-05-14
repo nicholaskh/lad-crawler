@@ -8,26 +8,31 @@ from datetime import datetime
 from .basespider import BaseTimeCheckSpider
 
 class newsSpider(BaseTimeCheckSpider):
-    name = "xinhuawang_guoji3"
-    start_urls = ['http://www.xinhuanet.com/world/wmyl.htm',
-                  'http://www.xinhuanet.com/world/hqbl.htm']
+    name = "xinhuawang_guoji7"
+    start_urls = ['http://th.xinhuanet.com/ssyw.htm',
+                  'http://th.xinhuanet.com/whtg.htm',
+                  'http://th.xinhuanet.com/ztjl.htm',
+                  'http://th.xinhuanet.com/cjyw.htm',
+                  'http://th.xinhuanet.com/hrdt.htm',
+                  'http://th.xinhuanet.com/tgdc.htm']
 
     def parse(self, response):
-        times = response.xpath('//ul[@class="dataList"]/li[@class="clearfix"]/div/span[@class="time"]/text()').extract()
-        #格式不规范
-        urls = response.xpath('//ul[@class="dataList"]/li[@class="clearfix"]/h3/a/@href').extract()
+        urls = response.xpath('//div[@id="autoData"]/ul/li/a/@href').extract()
         valid_child_urls = list()
+        times = list()
 
-        for time, url in zip(times, urls):
+        for url in urls:
+            time = time = url.rsplit('/', 3)[-3] + "-" + url.rsplit('/', 3)[-2]
             try:
                 time_now = datetime.strptime(time, '%Y-%m-%d')
                 self.update_last_time(time_now)
+                times.append(time)
             except:
-                print("Something Wrong")
-                break
+                print("error time format")
+                continue
 
             if self.last_time is not None and self.last_time >= time_now:
-                break
+                continue
             valid_child_urls.append(url)
 
         for index, temp_url in enumerate(valid_child_urls):
@@ -45,13 +50,13 @@ class newsSpider(BaseTimeCheckSpider):
         item = response.meta['item']
         item["source"] = "新华网"
 
-        title = response.xpath('//div[@class="h-title"]/text()').extract_first()
+        title = response.xpath('//h1[@id="title"]/text() | //div[@class="h-title"]/text()').extract_first()
         if title is None:
             return
         item["title"] = title
         item["sourceUrl"] = response.url
         # 修改了text_list
-        text_list = response.xpath('//div[@id="p-detail"]/p')
+        text_list = response.xpath('//span[@id="content"]/p | //div[@id="p-detail"]/p')
         text = processText(text_list)
         item["text"] = text
         img_list = processImgSep(text_list)

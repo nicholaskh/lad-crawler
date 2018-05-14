@@ -45,7 +45,7 @@ class newsSpider(BaseTimeCheckSpider):
         item = response.meta['item']
         item["source"] = "新华网"
 
-        title = response.xpath('//div[@class="h-title"]').extract_first()
+        title = response.xpath('//div[@class="h-title"]/text()').extract_first()
         if title is None:
             return
         item["title"] = title
