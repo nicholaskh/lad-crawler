@@ -61,8 +61,10 @@ class newsSpider(BaseTimeCheckSpider):
         item["sourceUrl"] = response.url
         # 修改了text_list
         text_list = response.xpath('//div[@class="detail-content"]/p | //div[@id="p-detail"]/p')
-        text = processText(text_list)
-        item["text"] = text.strip().replace("$#$", "")
+        text = processText(text_list).strip().replace("$#$", "")
+        if text == "":
+            return
+        item["text"] = text
         # img_list = processImgSep(text_list)
         # final_img_list = []
         # for img in img_list:
