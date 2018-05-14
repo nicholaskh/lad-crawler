@@ -2,7 +2,7 @@
 
 import pymongo
 import os
-import urllib
+import urllib2
 from scrapy.conf import settings
 from qiniu import Auth, put_file
 from pipeline.basepipeline import BasePipeline
@@ -82,8 +82,8 @@ class LadPipeline(BasePipeline):
                         # 下载图片
                         headers = {
                             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.75 Safari/537.36'}
-                        req = urllib.request.Request(url=image_url, headers=headers)
-                        conn = urllib.urlopen(req)
+                        req = urllib2.Request(url=image_url, headers=headers)
+                        conn = urllib2.urlopen(req)
                         file_writer.write(conn.read())
 
                     # 七牛云上传图片
