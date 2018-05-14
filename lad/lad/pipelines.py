@@ -80,7 +80,10 @@ class LadPipeline(BasePipeline):
                         continue
                     with open(file_path,'wb') as file_writer:
                         # 下载图片
-                        conn = urllib.urlopen(image_url)
+                        headers = {
+                            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.75 Safari/537.36'}
+                        req = urllib.request.Request(url=image_url, headers=headers)
+                        conn = urllib.urlopen(req)
                         file_writer.write(conn.read())
 
                     # 七牛云上传图片
