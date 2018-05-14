@@ -69,15 +69,13 @@ class newsSpider(BaseTimeCheckSpider):
         # 修改了text_list
         text_list = response.xpath('//div[@class="article"]/p')
         text = processText(text_list)
-        item["text"] = text
-        img_list = processImgSep(text_list)
-        final_img_list = []
-        for img in img_list:
-            if 'http' not in img:
-                img = response.url.rsplit('/', 1)[0] + '/' + img
-            final_img_list.append(img)
-        item['imageUrls'] = final_img_list
-        if text.strip().replace("$#$", "") == "":
-            return
+        item["text"] = text.strip().replace("$#$", "")
+        # img_list = processImgSep(text_list)
+        # final_img_list = []
+        # for img in img_list:
+        #     if 'http' not in img:
+        #         img = response.url.rsplit('/', 1)[0] + '/' + img
+        #     final_img_list.append(img)
+        item['imageUrls'] = None
 
         yield item
