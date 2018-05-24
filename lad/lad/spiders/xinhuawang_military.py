@@ -51,7 +51,7 @@ class newsSpider(BaseTimeCheckSpider):
 
             m_item = DailyNewsItem()
             m_item['time'] = time
-            m_item['className'] = "国际"
+            m_item['className'] = "军事"
             # 相当于在request中加入了item这个元素
             req.meta['item'] = m_item
             yield req
@@ -63,7 +63,7 @@ class newsSpider(BaseTimeCheckSpider):
         title = response.xpath('//h1[@id="title"]/text()').extract_first()
         if title is None:
             return
-        item["title"] = title
+        item["title"] = title.strip()
         item["sourceUrl"] = response.url
         # 修改了text_list
         text_list = response.xpath('//div[@class="article"]/p')

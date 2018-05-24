@@ -54,7 +54,7 @@ class newsSpider(BaseTimeCheckSpider):
         title = response.xpath('//div[@class="btt"]/h1/text()').extract_first()
         if title is None:
             return
-        item["title"] = title
+        item["title"] = title.strip()
         item["sourceUrl"] = response.url
         # 修改了text_list
         text_list = response.xpath('//div[@class="content"]/p')

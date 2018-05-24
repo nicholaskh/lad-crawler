@@ -1,5 +1,6 @@
 #coding=utf-8
 import scrapy
+import json
 import re
 
 from ..items import DailyNewsItem
@@ -8,40 +9,43 @@ from datetime import datetime
 from .basespider import BaseTimeCheckSpider
 
 class newsSpider(BaseTimeCheckSpider):
-    name = "xinhuawang_guoji7"
-    start_urls = ['http://th.xinhuanet.com/ssyw.htm',
-                  'http://th.xinhuanet.com/whtg.htm',
-                  'http://th.xinhuanet.com/ztjl.htm',
-                  'http://th.xinhuanet.com/cjyw.htm',
-                  'http://th.xinhuanet.com/hrdt.htm',
-                  'http://th.xinhuanet.com/tgdc.htm']
+    name = "xinhuawang_economy"
+    start_urls = ['http://www.xinhuanet.com/fortune/caiyan.htm',
+                  'http://www.xinhuanet.com/money/dj.htm',
+                  'http://www.xinhuanet.com/money/jrjs.htm',
+                  'http://www.xinhuanet.com/money/tshd.htm']
 
     def parse(self, response):
-        urls = response.xpath('//div[@id="autoData"]/ul/li/a/@href').extract()
-        valid_child_urls = list()
-        times = list()
+        nid = re.findall('pageNid":\["(.*?)"', response.text)[-1]
+        url = "http://qc.wa.news.cn/nodeart/list?nid=" + nid + "&pgnum=1&cnt=30"
+        req = scrapy.Request(url=url, callback=self.parse_url)
+        yield req
 
-        for url in urls:
-            time = time = url.rsplit('/', 3)[-3] + "-" + url.rsplit('/', 3)[-2]
+    def parse_url(self, response):
+        data = json.loads(response.text.strip('(').strip(')'))
+        times = []
+        urls = []
+        for row in data["data"]["list"]:
+            times.append(row["PubTime"].split(' ')[0])
+            url = row["LinkUrl"]
+            urls.append(url)
+
+        for time, url in zip(times, urls):
             try:
                 time_now = datetime.strptime(time, '%Y-%m-%d')
                 self.update_last_time(time_now)
-                times.append(time)
             except:
-                print("error time format")
-                continue
+                print("Something Wrong")
+                break
 
             if self.last_time is not None and self.last_time >= time_now:
-                continue
-            valid_child_urls.append(url)
+                break
 
-        for index, temp_url in enumerate(valid_child_urls):
-            req = scrapy.Request(url=temp_url, callback=self.parse_info)
+            req = scrapy.Request(url=url, callback=self.parse_info)
 
-            hit_time = times[index]
             m_item = DailyNewsItem()
-            m_item['time'] = hit_time
-            m_item['className'] = "国际"
+            m_item['time'] = time
+            m_item['className'] = "经济"
             # 相当于在request中加入了item这个元素
             req.meta['item'] = m_item
             yield req
@@ -50,13 +54,13 @@ class newsSpider(BaseTimeCheckSpider):
         item = response.meta['item']
         item["source"] = "新华网"
 
-        title = response.xpath('//h1[@id="title"]/text() | //div[@class="h-title"]/text()').extract_first()
+        title = response.xpath('//div[@class="h-title"]/text()').extract_first()
         if title is None:
             return
         item["title"] = title.strip()
         item["sourceUrl"] = response.url
         # 修改了text_list
-        text_list = response.xpath('//span[@id="content"]/p | //div[@id="p-detail"]/p')
+        text_list = response.xpath('//div[@id="p-detail"]/p')
         text = processText(text_list).strip().replace("$#$", "")
         if text == "":
             return
