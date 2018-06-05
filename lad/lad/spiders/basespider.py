@@ -83,7 +83,7 @@ class BaseTimeCheckSpider(BaseMongoSpider):
 
         if res.count() == 0:
             self.log_warning(u'spider: %s 在MONGODB没有last_time' % self.name)
-            self.last_time = datetime.strptime('1990-1-1', '%Y-%m-%d')
+            self.last_time = datetime.strptime('2018-4-15', '%Y-%m-%d')
             self.next_last_time = self.last_time
             return
 

@@ -28,7 +28,7 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
+#DOWNLOAD_DELAY = 1
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -71,7 +71,7 @@ ITEM_PIPELINES = {
 #
 # MONGO_HOST = "127.0.0.1"  # 主机IP
 # MONGO_PORT = 27017  # 端口号
-MONGO_HOST = "192.168.0.5"  # 主机IP
+MONGO_HOST = "192.168.1.3"  # 主机IP
 MONGO_PORT = 26134  # 端口号
 MONGO_DB = "news"  # 库名
 USERNAME = "fire"

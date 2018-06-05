@@ -14,10 +14,10 @@ class NoincrementalPipeline(object):
         self.client = pymongo.MongoClient(host=settings['MONGO_HOST'], port=settings['MONGO_PORT'])
         self.db = self.client[settings['MONGO_DB']]
 
-        try:
-            self.db.authenticate(name=settings['USERNAME'], password=settings['PASSWORD'])
-        except TypeError, e:
-            raise Exception(u'MONGODB数据库用户名或密码错误，认证失败: %s' % e.message)
+        # try:
+        #     self.db.authenticate(name=settings['USERNAME'], password=settings['PASSWORD'])
+        # except TypeError, e:
+        #     raise Exception(u'MONGODB数据库用户名或密码错误，认证失败: %s' % e.message)
 
         coll_name_video = settings['COLLECTION_VIDEO']
         coll_name_broadcast = settings['COLLECTION_BROADCAST']

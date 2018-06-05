@@ -15,10 +15,10 @@ class LadPipeline(BasePipeline):
         self.db = self.client[settings['MONGO_DB']]
 
         # TODO 是否应该把对MONGODB的连接对象都保持在spider内部
-        try:
-            self.db.authenticate(name=settings['USERNAME'], password=settings['PASSWORD'])
-        except TypeError, e:
-            raise Exception(u'MONGODB数据库用户名或密码错误，认证失败: %s' % e.message)
+        # try:
+        #     self.db.authenticate(name=settings['USERNAME'], password=settings['PASSWORD'])
+        # except TypeError, e:
+        #     raise Exception(u'MONGODB数据库用户名或密码错误，认证失败: %s' % e.message)
 
         coll_name_health = settings['COLLECTION_HEALTH']
         coll_name_security = settings['COLLECTION_SECURITY']
