@@ -82,7 +82,7 @@ COLLECTION_DAILYNEWS = 'dailynews'
 COLLECTION_SPIDER_INFO = 'spider_info'
 
 # 配置七牛云属性
-QINIU_DOMAIN = 'http://oojih7o1f.bkt.clouddn.com/'
+QINIU_DOMAIN = 'http://res.ttlaoyou.com/'
 QINIU_ACCESS_KEY = 'wDgkTBIuUn5KnvyFzuMIr8GdC1KCRnN4KABH7dF-'
 QINIU_SECRET_KEY = 'kQUvoiTx0Odyjo1OUudAJXTlGxF1Nhk1eK7YHV1n'
 
