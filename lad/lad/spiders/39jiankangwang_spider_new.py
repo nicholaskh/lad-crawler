@@ -8,8 +8,8 @@ from basespider import BaseTimeCheckSpider
 
 class newsSpider(BaseTimeCheckSpider):
     name = "39health1new"
-    dict_news = {'jbyw': '1疾病要闻','mxrd': '1健康星闻',
-        'qwqs': '1健康奇闻','yltx': '1医院动态','shwx': '1社会万象',
+    dict_news = {'jbyw': '1疾病要闻','mxrd': '1健康资讯',
+        'qwqs': '1健康资讯','yltx': '1医院动态','shwx': '1社会万象',
         'kyfx': '1科研发现','jdxw': '1焦点资讯'}
     start_urls = ['http://news.39.net/%s/' % x for x in dict_news.keys()]
 

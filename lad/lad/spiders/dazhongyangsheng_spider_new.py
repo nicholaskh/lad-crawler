@@ -10,9 +10,9 @@ from basespider import BaseTimeCheckSpider
 class NewsSpider(BaseTimeCheckSpider):
 
     name = "dazhongyangshengwangnew"
-    dict_news = {'yinshi/changshi':'2_营养饮食_饮食养生','yinshi/shipu':'2_饮食食谱_饮食养生','yinshi/dapei':'2_饮食搭配_饮食养生',
-                 'yinshi/cunchu':'2_食材存储_饮食养生','yinshi/shanghuo':'2_上火饮食_饮食养生','yinshi/tiaoxuan':'2_挑选技巧_饮食养生',
-                 'yinshi/jinji':'2_禁忌_饮食养生',
+    dict_news = {'yinshi/changshi':'2_营养饮食_营养养生','yinshi/shipu':'2_饮食食谱_营养养生','yinshi/dapei':'2_饮食搭配_营养养生',
+                 'yinshi/cunchu':'2_食材存储_营养养生','yinshi/shanghuo':'2_上火饮食_营养养生','yinshi/tiaoxuan':'2_挑选技巧_营养养生',
+                 'yinshi/jinji':'2_禁忌_营养养生',
                  'renqun/nvxing':'2_女性保健_保健人群','renqun/nanxing':'2_男性保健_保健人群','renqun/laoren':'2_老人保健_保健人群',
                  'renqun/ertong':'2_儿童保健_保健人群','renqun/muying':'2_母婴保健_保健人群','renqun/teshu':'2_特殊人群保健_保健人群',
                  'renqun/mingren':'2_名人养生_保健人群',
@@ -21,7 +21,7 @@ class NewsSpider(BaseTimeCheckSpider):
                  'shenghuoyangsheng/jujia':'2_居家保健_生活保健','shenghuoyangsheng/jianfei':'2_减肥_生活保健','shenghuoyangsheng/meirong':'2_美容_生活保健',
                  'yundong/changshi':'2_运动常识_运动养生','yundong/qicai':'2_运动器材_运动养生','yundong/yingyang':'2_运动营养_运动养生',
                  'yundong/huwai':'2_户外_运动养生','yundong/jianshen':'2_健身_运动养生','yundong/yujia':'2_瑜伽_运动养生',
-                 'zixun/xingainian':'1_健康新知','zixun/baoguang':'1_曝光台','zixun/xinwen':'1_焦点资讯','zixun/hotnews':'1_精彩热点'
+                 'zixun/xingainian':'1_健康资讯','zixun/baoguang':'1_曝光台','zixun/xinwen':'1_焦点资讯','zixun/hotnews':'1_精彩热点'
                  }
     start_urls = ['http://www.cndzys.com/%s/' % x for x in dict_news.keys()]
 

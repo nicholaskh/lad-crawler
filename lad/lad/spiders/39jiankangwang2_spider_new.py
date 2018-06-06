@@ -13,7 +13,7 @@ class newsSpider(BaseTimeCheckSpider):
         'ys/shyp': '2生活用品&生活保健','ys/shcs': '2生活常识&生活保健','ys/shxg': '2生活习惯&生活保健','ys/yswq': '2养生误区&生活保健',
         'ys/jj': '2居家保健&生活保健','dzbj/woman': '2女性保健&保健人群','dzbj/man': '2男性保健&保健人群',
         'dzbj/oldman': '2老人保健&保健人群','dzbj/baby': '2儿童保健&保健人群','ys/mxys': '2名人养生&保健人群',
-        'jbyf/jzb': '2颈椎病&疾病预防','jbyf/az': '2癌症&疾病预防','jbyf/xxg': '2心血管&疾病预防','yjk/zzyf/sm': '2失眠&亚健康',
+        'jbyf/jzb': '2颈椎病&疾病要闻','jbyf/az': '2癌症&疾病要闻','jbyf/xxg': '2心血管&疾病要闻','yjk/zzyf/sm': '2失眠&亚健康',
         'yjk/zzyf/pl': '2疲劳&亚健康','yjk/zzyf/zhz': '2综合症&亚健康'
         }
     start_urls = ['http://care.39.net/%s/' % x for x in dict_commens.keys()]

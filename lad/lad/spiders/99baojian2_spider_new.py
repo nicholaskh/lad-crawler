@@ -12,9 +12,9 @@ class NewsSpider(BaseTimeCheckSpider):
     name = "99yiji2new"
     # 健康新知
     dict_news = {'nxbj':'2_女性保健_保健人群','nanxing':'2_男性保健_保健人群','lrbj':'2_老人保健_保健人群',
-                 'cjbj':'2_春季保健_四季保健','xjbj':'2_夏季保健_四季保健','qjbj':'2_秋季保健_四季保健','djbj':'2_冬季保健_四季保健',
+                 'cjbj':'2_春季保健_保健资讯','xjbj':'2_夏季保健_保健资讯','qjbj':'2_秋季保健_保健资讯','djbj':'2_冬季保健_保健资讯',
                  'tjgs':'2_调节改善_亚健康','yfcs':'2_预防措施_亚健康','yjkzc':'2_自测_亚健康','jjbj':'2_家居保健_生活保健',
-                 'lybj':'1_旅游保健','baojiancao':'1_保健操','shzd':'1_养生指南','slys':'1_饮食养生'}
+                 'lybj':'1_旅游保健','baojiancao':'1_保健操','shzd':'1_养生指南','slys':'1_营养养生'}
     start_urls = ['http://bj.99.com.cn/%s/' % x for x in dict_news.keys()]
 
     def parse(self, response):
